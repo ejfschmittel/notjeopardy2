@@ -1,0 +1,25 @@
+- relogin after refresh
+- add logout functionality
+
+
+build user system frontend (hooks)
+
+early deploy (after user system is setup )
+
+https://stackoverflow.com/questions/7539382/how-can-i-deploy-push-only-a-subdirectory-of-my-git-repo-to-heroku
+git subtree push --prefix output heroku master
+
+
+page overview 
+
+    / () => explore page ??
+
+    /users/login
+    /users/signup
+    /users/{username}/ (profile: change data, see quizzes)
+    /users/{username}/quizzes
+    /users/{username}/questions
+    /quiz/  (create quiz)
+    /quiz/{id} (hashed id) (play game quiz )
+    
+    
