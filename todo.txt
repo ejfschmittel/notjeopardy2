@@ -1,5 +1,4 @@
-- relogin after refresh
-- add logout functionality
+
 
 
 build user system frontend (hooks)

@@ -1,0 +1,39 @@
+.header{
+    background: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 10%;
+
+    a { 
+        color: #fff;
+        text-decoration: none;
+    }
+
+    &__title{
+        font-size: 1.6rem;
+        text-transform: uppercase;
+        font-weight: 100;
+    }
+
+    &__nav ul{
+        list-style: none;      
+        display: flex;
+    }
+
+
+    &__nav-item > *{
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        padding: .5rem 1rem;
+        border-radius: .5rem;
+        background: #555;
+        margin: .5rem;
+        border: none;
+        outline: none;
+        color: #fff;
+        display: inline-block;
+        cursor: pointer;
+    }
+}

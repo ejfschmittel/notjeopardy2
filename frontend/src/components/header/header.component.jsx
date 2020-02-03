@@ -3,6 +3,8 @@ import {Link} from "react-router-dom"
 import {useSelector, useDispatch} from "react-redux"
 import {logoutUser} from "../../redux/auth/auth.actions"
 
+import "./header.styles.scss"
+
 const Header = () => {
     const isAuthenticated = useSelector(({authReducer}) => authReducer.isAuthenticated)
     const currentUser = useSelector(({authReducer}) => authReducer.user)
@@ -14,25 +16,24 @@ const Header = () => {
     }
 
     return (
-        <header>
-            <h1>Header</h1>
-            Logged In as: {currentUser && currentUser.username}
-
-
-            {isAuthenticated ?
-                <React.Fragment>
-                    <button onClick={onLogout}>Logout</button>
-                </React.Fragment>
-                :
-                <React.Fragment>
-                     <Link to="/login">Login</Link>
-                    <Link to="/signup">Signup</Link>
-                </React.Fragment>
-            }
-
-
-           
-            
+        <header className="header">
+            <Link to="/" className="header__title">Not Jeopardy</Link>
+            <nav className="header__nav">
+                <ul>
+                    {isAuthenticated ? 
+                        <React.Fragment>
+                            <li className="header__nav-item"><Link to="/quiz/create">Create Quiz</Link></li>
+                            <li className="header__nav-item"><Link to="/quiz/me">My Quizzes</Link></li>
+                            <li className="header__nav-item"><button onClick={onLogout}>Logout</button></li>
+                        </React.Fragment>
+                    :
+                        <React.Fragment>
+                            <li className="header__nav-item"><Link to="/login">Login</Link></li>
+                            <li className="header__nav-item"><Link to="/signup">Signup</Link></li>
+                        </React.Fragment>
+                    }
+                </ul>
+            </nav>
         </header>
     )
 }

@@ -8,6 +8,8 @@ import { getJWTToken, isTokenAlive, getDecodedToken, isDecodedTokenAlive } from 
 import {AUTH_TOKEN_NAME, loginUserSuccess} from "./redux/auth/auth.actions"
 
 
+import "./styles/main.scss";
+
 const useLoginUserAfterPageRefresh = () => {
     const isAuthenticated = useSelector(({authReducer}) => authReducer.isAuthenticated)
     const dispatch = useDispatch();
