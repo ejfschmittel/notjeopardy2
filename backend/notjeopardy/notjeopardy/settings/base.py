@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # my apps
-    'accounts'
+    'accounts',
+    'categories',
+    'questions',
+    'quizzes'
 ]
 
 MIDDLEWARE = [

@@ -1,4 +1,38 @@
+- create authenticated routes
 
+- create model category, quiz, question, 
+
+
+- create question
+- create category
+- create quiz 
+    - set quiz categories
+    - generate categories
+    - set quiz questions
+    - set quiz questions
+    - generate questions
+
+
+be able to search for categories & questions
+
+
+categories & questions
+    - your (created) => auto favorite
+    - favorited 
+    - official
+
+favorite & official => get recommend
+
+your categories
+favorite categories
+offical categories
+
+Design Questions:
+    - keeping it simple?
+    - multiple answers?
+
+Future additions:
+    - pictures for questions
 
 
 build user system frontend (hooks)

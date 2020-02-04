@@ -54,6 +54,9 @@ class MyUser(AbstractBaseUser):
         ]
     )
 
+    # favorite_categories = models.ManyToManyField(to=Category)
+    # favorite_questions = models.ManyToManyField(to=Questions)
+
     #TODO: add email activation
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -75,3 +78,7 @@ class MyUser(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+    class Meta: 
+        verbose_name = "User"
+        verbose_name_plural = "Users"
