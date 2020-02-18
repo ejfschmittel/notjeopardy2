@@ -1,0 +1,32 @@
+.recommender-input{
+    background: #000;
+    display: inline-block;
+    position: relative;
+
+    &__input{
+        display: block;
+        padding: .1rem .3rem;
+    }
+
+    &__recommendation-list{
+        position: absolute;
+        top: 100%;
+        border: 1px solid #ddd;
+        width: 100%;
+        background: #fff;
+        height: auto;
+        max-height: 40vh;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+
+    &__recommendation-item{
+        cursor: pointer;
+        transition: .2s all;
+        padding: .1rem .3rem;
+
+        &:hover{
+            background: #eee;
+        }
+    }
+}

@@ -20,10 +20,12 @@ const Header = () => {
             <Link to="/" className="header__title">Not Jeopardy</Link>
             <nav className="header__nav">
                 <ul>
+                    <li className="header__nav-item"><Link to="/">Explore</Link></li>
                     {isAuthenticated ? 
                         <React.Fragment>
+                            
                             <li className="header__nav-item"><Link to="/quiz/create">Create Quiz</Link></li>
-                            <li className="header__nav-item"><Link to="/quiz/me">My Quizzes</Link></li>
+                            <li className="header__nav-item"><Link to={`/users/${currentUser.username}/`}>{currentUser.username}</Link></li>
                             <li className="header__nav-item"><button onClick={onLogout}>Logout</button></li>
                         </React.Fragment>
                     :

@@ -20,3 +20,18 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def favorites(self):
+        return UserCategoryFavorites.objects.filter(category=self).count()
+
+class UserCategoryFavorites(models.Model):
+    user = models.ForeignKey(to=MyUser, on_delete=models.CASCADE)
+    category = models.ForeignKey(to=Category, on_delete=models.CASCADE)
+    crated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username + " favorited " + self.category.name 
+
+    class Meta:
+        unique_together = ('user','category',)
+

@@ -4,13 +4,14 @@ import Header from "./components/header/header.component"
 import { useSelector, useDispatch } from "react-redux"
 import LoginPage from "./components/login/login.component"
 import SignupPage from "./components/signup/signup.component"
+import ManageCategories from "./components/manage-categories/manage-categories.component"
 import { getJWTToken, isTokenAlive, getDecodedToken, isDecodedTokenAlive } from './utils/jwt';
-import {AUTH_TOKEN_NAME, loginUserSuccess} from "./redux/auth/auth.actions"
+//import {AUTH_TOKEN_NAME, loginUserSuccess} from "./redux/auth/auth.actions"
 
 
 import "./styles/main.scss";
 
-const useLoginUserAfterPageRefresh = () => {
+/* const useLoginUserAfterPageRefresh = () => {
     const isAuthenticated = useSelector(({authReducer}) => authReducer.isAuthenticated)
     const dispatch = useDispatch();
 
@@ -20,11 +21,12 @@ const useLoginUserAfterPageRefresh = () => {
       if(!isAuthenticated && token){
         const decodedToken = getDecodedToken(AUTH_TOKEN_NAME)
         if(isDecodedTokenAlive(decodedToken)){
+          console.log("auto login")
           dispatch(loginUserSuccess({
             token,
             user: {
               username: decodedToken.username,
-              emai: decodedToken.email,
+              email: decodedToken.email,
               user_id: decodedToken.user_id
             }
           }))
@@ -33,10 +35,10 @@ const useLoginUserAfterPageRefresh = () => {
 
       return () => null;
     }, [])
-}
+}*/
 
 function App() {
-  useLoginUserAfterPageRefresh();
+ 
 
   return (
     <div>
@@ -45,6 +47,7 @@ function App() {
         <Switch>
           <Route path="/login" component={LoginPage}/>
           <Route path="/signup" component={SignupPage}/>
+          <Route path="/users/:username/categories" component={ManageCategories}/>
         </Switch>
       </Router>
     </div>

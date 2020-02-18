@@ -1,11 +1,12 @@
-import authTypes from "./auth.types"
+import authTypes, {AUTH_TOKEN_NAME} from "./auth.types"
 import {request, mergeRequestSettings} from "../../utils/request"
 import store from "../index"
 import {isTokenAlive, removeJWTToken, tokenExpiresInTimeDelta, getJWTToken, setJWTToken} from "../../utils/jwt"
+
 // rename to auth
 
 
-export const AUTH_TOKEN_NAME = "auth_token"
+
 const AUTH_TOKEN_REFRESH_DELTA = 10 * 60  // 10min
 
 const BASE_API_URL = "http://127.0.0.1:8000/api";
@@ -19,7 +20,7 @@ const USER_LOGIN_API_URL = BASE_API_URL + "/users/login/"
 const isUserLoggedIn = () => {
 
     console.log(store.getState())
-    if(store.getState().authReducer.isLoggedIn){
+    if(store.getState().authReducer.isAuthenticated){
 
         if(!isTokenAlive(AUTH_TOKEN_NAME)){
             store.dispatch(logoutUser())
@@ -49,14 +50,19 @@ const refreshAuthToken = async () => {
 const authenticatedRequest = async (url, settings={}) => {
     let requestSettings = {...settings}
 
+    console.log("authenticated request")
+    console.log(isUserLoggedIn())
     if(isUserLoggedIn()){
         if(shouldRefreshAuthToken()){
             await refreshAuthToken();
         }
-        requestSettings = mergeRequestSettings({headers: getAuthHeaders}, requestSettings)
+        console.log("authenticated request 2")
+        
+        requestSettings = mergeRequestSettings({headers: getAuthHeaders()}, requestSettings)
+
     }
 
-    return await request(url, settings)
+    return await request(url, requestSettings)
 }
 
 
@@ -71,6 +77,16 @@ export const post = async (url, postData, settings={}) => {
         ...settings,
         body: JSON.stringify(postData),
         method: "POST"
+    }
+
+    return await authenticatedRequest(url, requestSettings) 
+}
+
+export const rdelete = async (url, data, settings={}) => {
+    const requestSettings = {
+        ...settings,
+        body: JSON.stringify(data),
+        method: "DELETE"
     }
 
     return await authenticatedRequest(url, requestSettings) 

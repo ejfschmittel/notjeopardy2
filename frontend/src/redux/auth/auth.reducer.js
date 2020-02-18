@@ -1,6 +1,9 @@
 import authTypes from "./auth.types"
 
-const INITIAL_STATE = {
+import { getJWTToken, isTokenAlive, getDecodedToken, isDecodedTokenAlive } from '../../utils/jwt';
+import {AUTH_TOKEN_NAME} from "./auth.types"
+
+let INITIAL_STATE = {
     token: null,
     user: null,
     isAuthenticated: false,
@@ -12,7 +15,33 @@ const INITIAL_STATE = {
     signupError: null,
 }
 
+
+
+const checkLogin = () => {
+      const token = getJWTToken(AUTH_TOKEN_NAME)
+     
+      if(token){
+        const decodedToken = getDecodedToken(AUTH_TOKEN_NAME)
+        if(isDecodedTokenAlive(decodedToken)){
+          console.log("auto login")
+          INITIAL_STATE = {
+            ...INITIAL_STATE,
+            token,
+            user: {
+                username: decodedToken.username,
+                email: decodedToken.email,
+                user_id: decodedToken.user_id
+            },
+            isAuthenticated: true
+          }
+        }
+      }
+}
+
+checkLogin();
+
 const authReducer = (state = INITIAL_STATE, action) => {
+
     switch(action.type){
         case authTypes.SIGNUP_START: 
             return {...state, isSigningUp: true}

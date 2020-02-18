@@ -1,0 +1,62 @@
+@mixin favorite-btn{
+    border-radius: .2rem;
+    padding: .3rem 1rem;
+    border: 1px solid #aaa;
+    border-radius: .3rem;
+    justify-self: flex-end;
+    margin-left: auto;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 .1rem .3rem rgba(0,0,0,.15);
+    background: #333;
+
+    &:hover{
+        box-shadow: 0 .2rem .5rem rgba(0,0,0,.15);
+    }
+
+    &:active{
+        box-shadow: 0 .1rem .3rem rgba(0,0,0,.3);
+    }
+
+    &:disabled{
+        opacity: .8;
+        cursor: not-allowed;
+        &:hover{
+            box-shadow: 0 .1rem .3rem rgba(0,0,0,.15);
+        }
+    }
+}
+
+.category-display{
+
+    background: #fff;
+    margin: .5rem 0;
+    border-radius: .3rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: 0 .1rem .3rem rgba(0,0,0,.3);
+
+
+    &__name{
+
+    }
+
+    &__questions{
+        margin-left: 2rem;
+    }
+
+    &__favorite-btn{
+        @include favorite-btn();
+
+        color: #fff;
+    }
+
+    &__unfavorite-btn{
+        @include favorite-btn();
+ 
+        color: #fff;
+    }
+}

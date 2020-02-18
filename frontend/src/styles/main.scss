@@ -8,4 +8,9 @@
 @import "base/utils";
 
 
-
+.container{
+    width: 100%;
+    max-width: 100rem;
+    padding: 0 1rem;
+    margin: 0 auto;
+}

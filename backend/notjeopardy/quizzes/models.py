@@ -11,6 +11,7 @@ class Quiz(models.Model):
 
     official = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
+    public = models.BooleanField(default=True)
     
     categories = models.ManyToManyField(Category, related_name="quiz_categories")
     questions = models.ManyToManyField(Question, related_name="quiz_questions")

@@ -44,7 +44,12 @@ const checkResponseStatus = async (response) => {
     }    
 }
 
-const parseJSON = (response) => {
+const parseJSON = async (response) => {
+    if(!response) response = {};
+    const text = await response.text()
+    if(!text) return ({})
+    console.log(text)
+    return JSON.parse(text)
     return response.json()
 }
 
@@ -54,9 +59,14 @@ export const request = async (url, settings={}) => {
     if(settings.body && settings.method === "GET") throw new Error("Get request is unable to process body.")
 
 
+
     const requestSettings = {
         ...REQUEST_CONSTANTS.DEFAULT_REQUEST_SETTINGS,
-        ...settings
+        ...settings,
+        headers: {
+            ...REQUEST_CONSTANTS.DEFAULT_REQUEST_SETTINGS.headers,
+            ...settings.headers
+        }
     }
 
     console.log(requestSettings)
@@ -91,6 +101,8 @@ export const post = async (url, postData=null, settings={}) => {
 
 export const mergeRequestSettings = (...settings) => {
     return settings.reduce((requestSettings, {headers,...settingsObject}) => {
+
+
         return {
             ...requestSettings,
             ...settingsObject,

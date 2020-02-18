@@ -1,6 +1,28 @@
-- create authenticated routes
 
-- create model category, quiz, question, 
+
+- favorite category (categoryid)
+- write tests for categories
+
+
+http://whitenoise.evans.io/en/stable/
+https://www.youtube.com/watch?v=TgmeAN32Uvw
+
+/users/ejfschmittel/    (profile, information & passwordchange)
+/users/ejfschmittel/questions/ (question overview and add new questions)
+/users/ejfschmittel/categories (category overiew and add new categories)
+
+question page:
+    offical, myquestions, favorited, all questions???
+    - Create New Form
+    - Search + Fitler
+    - List (myquestions, favorited)
+
+    => link to explore 
+
+categories page:
+
+
+=> profile (my questions / categories)
 
 
 - create question
