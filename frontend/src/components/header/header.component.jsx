@@ -26,6 +26,8 @@ const Header = () => {
                             
                             <li className="header__nav-item"><Link to="/quiz/create">Create Quiz</Link></li>
                             <li className="header__nav-item"><Link to={`/users/${currentUser.username}/`}>{currentUser.username}</Link></li>
+                            <li className="header__nav-item"><Link to={`/users/${currentUser.username}/questions/`}>My Questions</Link></li>
+                            <li className="header__nav-item"><Link to={`/users/${currentUser.username}/categories/`}>My Categories</Link></li>
                             <li className="header__nav-item"><button onClick={onLogout}>Logout</button></li>
                         </React.Fragment>
                     :

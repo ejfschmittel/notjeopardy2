@@ -10,7 +10,7 @@ class Question(models.Model):
     # add image option
     question = models.CharField(max_length=256, null=False, blank=False)
 
-    correct_answer = models.UUIDField(null=True, blank=True)
+
 
     is_official = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -27,9 +27,11 @@ class Answer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     answer = models.CharField(max_length=256, null=False, blank=False)
     question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name="question_answers")
+    correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.id)
+        #return str(self.id)
+        return self.question.question + " : " + self.answer + " " + str(self.correct)
 
 
 

@@ -31,6 +31,7 @@ const getCategoriesError = (error) => ({
 })
 
 export const getCatgories = () => async (dispatch) => {
+
     dispatch(getCategoriesStart())
 
     try{

@@ -1,0 +1,57 @@
+.answer-input{
+    border: 1px solid #666;
+    margin: .2rem 0;
+    background: #fff;
+
+    &--empty{
+        opacity: 0.8;
+    }
+
+    input{
+        border: none;
+        margin: 0;
+    }
+
+    & > *:not(:last-child){
+        margin-right: 0;
+    }  
+
+    &__radio-label{
+        margin-right: .2rem;
+
+        padding: .2rem;
+        background: #fff;
+        cursor: pointer;
+    }
+
+    &__radio-btn{
+        display: none !important;
+    }
+
+    &__radio-btn-display{
+        background: red;
+        display: block;
+        height: 100%;
+        width: 1.4rem;
+    }
+
+    &__radio-btn:checked + &__radio-btn-display{
+        background: green;
+    }
+}
+
+.slider{
+    overflow: hidden;
+    &__body{
+     
+        
+ 
+        overflow: hidden;
+        max-height: fit-content;
+        transition: max-height 1s;
+
+        &--hide{
+            max-height: 0;
+        }
+    }
+}

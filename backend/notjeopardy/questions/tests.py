@@ -27,8 +27,8 @@ class QuestionTests(APITestCase):
     def test_create_question(self):
         data = {
             "question": "test",
-            "correct_answer": "",
-            "answers": [{"answer":"test"}]
+            "correct_answer": null,
+            "answers": [{"answer":"test"}, {"answer": "test2"}]
         }      
         response = self.client.post("/api/questions/", data)
        
