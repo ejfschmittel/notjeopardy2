@@ -1,5 +1,10 @@
 
 
+
+// questions / one answer / multiple answers
+// point tracking system
+
+
 - favorite category (categoryid)
 - write tests for categories
 
