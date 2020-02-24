@@ -15,8 +15,22 @@ const INITIAL_STATE = {
     createdCategory: null,
     createCategoryError: null,
     categoryExistedWantToFavorite: null,
+
+    categorySuggestions: [],
 }
 
+
+/*
+    suggestionCategories = {
+        ...
+    }
+    own create + favorited + official 
+    => 50 + 5 + 20 / 100
+
+    check if cateogrySuggestions exists / is Pending
+        fetch
+    use
+*/
 
 const removeFromFavoritePending = (state, action) => {
     return state.categoriesFavoritePending.filter(id => id !== action.payload)

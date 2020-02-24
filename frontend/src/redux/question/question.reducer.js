@@ -3,8 +3,23 @@ import questionTypes from "./question.types"
 import ReducerUtils, {UTIL_NAME_DEFIINITION, ITEM_ACTIONS} from "../utils/ReducerUtils"
 
 
+
+/*
+    
+    questions_suggestiosn: {
+        cateogry: [{
+            questions
+        }]
+    },
+    category_suggestiosn: [
+        {category, id}
+    ]
+
+*/
+
+
 // questions state name map
-const QUESTION_STATE = {
+export const QUESTION_STATE = {
     FETCH_QUESTION_PENDING: "FETCH_QUESTION_PENDING",
     QUESTIONS_BY_ID: "QUESTIONS_BY_ID",
     QUESTION_ID_LIST: "QUESTION_ID_LIST", 
@@ -14,7 +29,10 @@ const QUESTION_STATE = {
     CREATE_QUESTION_ERROR: "CREATE_QUESTION_ERROR",
 
     QUESTION_ITEM_PENDING: "QUESTION_ITEM_PENDING",
-    QUESTION_ITEM_STATUS: "QUESTION_ITEM_STATUS"
+    QUESTION_ITEM_STATUS: "QUESTION_ITEM_STATUS",
+
+
+    CATEGORY_QUESTION_SUGGESTIONS: "CATEGORY_QUESTION_SUGGESTIONS",
 
 }
 
@@ -29,15 +47,20 @@ const {
     FETCH_QUESTION_PENDING,
     CREATE_QUESTION_PENDING,
     CREATED_QUESTION,
-    CREATE_QUESTION_ERROR
+    CREATE_QUESTION_ERROR,
+
+    CATEGORY_QUESTION_SUGGESTIONS
 } = QUESTION_STATE
 
-const QuestionReducerUtil = new ReducerUtils({
+
+export const QUESTION_REDUCER_UTIL_MAP = {
     [ITEMS_ID_LIST]: QUESTION_ID_LIST,
     [ITEMS_ID_OBJECT]: QUESTIONS_BY_ID,
     [ITEMS_PENDING_LIST]: QUESTION_ITEM_PENDING,
     [ITEMS_STATUS_OBJECT]: QUESTION_ITEM_STATUS
-  })
+}
+
+const QuestionReducerUtil = new ReducerUtils(QUESTION_REDUCER_UTIL_MAP)
 
 
 const INITIAL_STATE = {
@@ -55,6 +78,7 @@ const INITIAL_STATE = {
 
 
 const questionReducer = (state = INITIAL_STATE, action) => {
+    console.log(action)
     switch(action.type){
 
         // create new question
@@ -65,8 +89,11 @@ const questionReducer = (state = INITIAL_STATE, action) => {
                 [CREATE_QUESTION_ERROR]: null
             }
         case questionTypes.CREATE_QUESTION_SUCCESS:
+            const addedCreatedQuestion = QuestionReducerUtil.insertItem(state, action.payload.id, action.payload, 0)
+          
             return {
                 ...state, 
+                ...addedCreatedQuestion,
                 [CREATE_QUESTION_PENDING]: false, 
                 [CREATED_QUESTION]: action.payload, 
                 [CREATE_QUESTION_ERROR]: null
@@ -96,6 +123,7 @@ const questionReducer = (state = INITIAL_STATE, action) => {
         // delete question
         case questionTypes.DELETE_QUESTION_START:
             const stateWithDeleteAction = QuestionReducerUtil.startItemAction(state, action.payload, ITEM_ACTIONS.DELETE)
+            console.log(stateWithDeleteAction)
             return {...stateWithDeleteAction}
         case questionTypes.DELETE_QUESTION_SUCCESS:
             const stateWithDeleteActionEnd = QuestionReducerUtil.endItemAction(state, action.payload)

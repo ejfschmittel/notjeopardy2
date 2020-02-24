@@ -70,10 +70,66 @@ https://stackoverflow.com/questions/7539382/how-can-i-deploy-push-only-a-subdire
 git subtree push --prefix output heroku master
 
 
+{
+    questions: {
+        byId,
+        byList
+    }
+}
+
+{
+    categories: {
+        createPending,
+        createError,
+        byId: {
+            #id: {
+                name: "asdfasdf",
+                creator: "creator",
+                isPending: "",
+                justCreated: true,
+            }
+        }
+        byList: {
+           categories:
+           cateogoriesUser: 
+        }
+    }
+}
+
+// start fadeout
+// send request
+// if(success) remove 
+// if(error) reshow => or show error
+
+// recommend => component based => no redux
+
+// cash last result of category Search
+
+// cash last result of category search my categories
+
+
+owned & favorited => my questions
+myquestions & official => recommended questions
+
+searchText, owned, favorited, myquestions, official => 
+
+
+SearchQuestion Component = (search + filter + list)
+
+filters ? owner, favorited, searchText, page
+
+
 page overview 
 
     / () => explore page ??
 
+actions
+reducer
+types
+
+
+https://egghead.io/lessons/javascript-redux-refactoring-the-reducers
+https://github.com/gaearon/todos/tree/27-updating-data-on-the-server/src
     /users/login
     /users/signup
     /users/{username}/ (profile: change data, see quizzes)
@@ -81,5 +137,7 @@ page overview
     /users/{username}/questions
     /quiz/  (create quiz)
     /quiz/{id} (hashed id) (play game quiz )
+
+
     
     

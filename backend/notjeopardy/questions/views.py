@@ -14,7 +14,7 @@ from django.http import Http404
 class IsCreator(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method == 'DELETE':
-            if request.user and not request.user.is_anonymous and request.user.userid == obj.creator:
+            if request.user and not request.user.is_anonymous and request.user.id == obj.creator:
                 return True
             return False 
         return True
@@ -22,20 +22,26 @@ class IsCreator(BasePermission):
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method == 'DELETE':
-            if request.user and not request.user.is_anonymous and request.user.userid == obj.owner:
+            if request.user and not request.user.is_anonymous and request.user.id == obj.owner:
                 return True
             return False 
         return True
 
 def is_owner(request, obj):
-    if request.user and not request.user.is_anonymous and (request.user.userid == obj["owner"] or request.user.userid == obj["creator"]):
+    print(request.user)
+    print(not request.user.is_anonymous)
+    print(request.user.id == obj.creator.id)
+    print(obj.creator)
+    if request.user and not request.user.is_anonymous and request.user.id == obj.creator.id:
         return True
     return False
  
 class EditDeleteOnlyAsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in ['DELETE', 'UPDATE','PATCH']:
+            print("is method")
             if is_owner(request, obj):
+                print("is owner")
                 return True
             return False                 
         return True

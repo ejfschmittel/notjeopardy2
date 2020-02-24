@@ -48,8 +48,8 @@ export const getQuestions = () => async (dispatch) => {
 
     try{
         const response = await get(url)
-        const questions = createIdObjectandIdList(response)
-        dispatch(getQuestionsnSuccess(questions))
+        // const questions = createIdObjectandIdList(response)
+        dispatch(getQuestionsnSuccess(response))
     }catch(error){
         dispatch(getQuestionsError(error.response))
     }
@@ -85,3 +85,37 @@ export const createQuestion = (questionData) => async (dispatch) => {
         dispatch(createQuestionError(error.response))
     }
 }
+
+
+const deleteQuestionStart = (questionId) => ({
+    type: questionTypes.DELETE_QUESTION_START,
+    payload: questionId
+})
+
+const deleteQuestionSuccess = (questionId) => ({
+    type: questionTypes.DELETE_QUESTION_SUCCESS,
+    payload: questionId
+})
+
+const deleteQuestionError = (error) => ({
+    type: questionTypes.DELETE_QUESTION_ERROR,
+    payload: error
+})
+
+
+export const deleteQuestion = (questionId) => async (dispatch) => {
+
+    dispatch(deleteQuestionStart(questionId))
+
+    const url = `${BASE_API_URL}questions/${questionId}/`
+    console.log(url)
+
+    try{
+        const response = await rdelete(url)
+
+        dispatch(deleteQuestionSuccess(questionId))
+    }catch(error){
+        dispatch(deleteQuestionError(error.response))
+    }
+}
+
