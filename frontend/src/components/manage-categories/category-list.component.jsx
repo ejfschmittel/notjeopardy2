@@ -6,11 +6,9 @@ import "./category-list.styles.scss"
 
 
 const CategoryList = () => {
-    const categoryIdList = useSelector(({categoryReducer}) => categoryReducer.categoryIdList)
-    const categoriesById = useSelector(({categoryReducer}) => categoryReducer.categoriesById)
-    const categoriesFavoritePending = useSelector(({categoryReducer}) => categoryReducer.categoriesFavoritePending)
-    console.log(categoriesFavoritePending)
-
+    const categoryIdList = useSelector(({categoryReducer}) => categoryReducer.byList.userCategories.list)
+    const categoriesById = useSelector(({categoryReducer}) => categoryReducer.byId)
+    
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -40,20 +38,16 @@ const CategoryList = () => {
 
 const CategoryDisplay = ({category}) => {
     const dispatch = useDispatch()
-    const categoriesFavoritePending = useSelector(({categoryReducer}) => categoryReducer.categoriesFavoritePending)
-
-    // memoize
-    const isPending = categoriesFavoritePending.includes(category.id)
-
 
     const dispatchFavoriteCategory = (categoryid) => {
 
         dispatch(favoriteCategory(categoryid))
     }
 
+    const style = category.justCreated ? {background: "green"}: {};
 
     return (
-        <div className="category-display">
+        <div className="category-display" style={style}>
             <div className="category-diaplay__name">{category.name}</div>
 
             <div className="category-display__questions">
@@ -63,12 +57,12 @@ const CategoryDisplay = ({category}) => {
             </div>
 
             {category.is_favorited ? 
-            <button disabled={isPending} className="category-display__unfavorite-btn" onClick={() => dispatch(unfavoriteCategory(category.id))}>
-                {isPending ? "...saving" : "Unfavorite"}
+            <button disabled={category.isPending} className="category-display__unfavorite-btn" onClick={() => dispatch(unfavoriteCategory(category.id))}>
+                {category.isPending ? "...saving" : "Unfavorite"}
             </button>
             :
-            <button disabled={isPending} className="category-display__favorite-btn" onClick={() => dispatchFavoriteCategory(category.id)}>
-                {isPending ? "...saving" : "Favorite"}
+            <button disabled={category.isPending} className="category-display__favorite-btn" onClick={() => dispatchFavoriteCategory(category.id)}>
+                {category.isPending ? "...saving" : "Favorite"}
             </button>    
             }
         </div>
