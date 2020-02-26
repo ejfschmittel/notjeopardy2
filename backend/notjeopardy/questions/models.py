@@ -9,7 +9,7 @@ class Question(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # add image option
     question = models.CharField(max_length=256, null=False, blank=False)
-    category = models.ForeignKey(to=Category, on_delete=models.SET_NULL, null=True, default=None)
+    category = models.ForeignKey(to=Category, on_delete=models.SET_NULL, null=True, blank=True, default=None)
 
 
     is_official = models.BooleanField(default=False)

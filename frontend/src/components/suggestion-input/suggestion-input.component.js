@@ -4,45 +4,65 @@ import "./suggestion-input.styles.scss"
 
 
 /*
-    TODO.
-    ADD LOADING
-    TEST
+    normal input props
+    suggestions
+    renderSuggestion: overrides render for 
+    displayKey: default display if suggestion is object
+    valueKey: return onChange if suggestion is object
+    loading ? not added yet
+
+    TODO:
+    ADD down arrow support
 
 */
 
-const SuggestionInput = ({dropDownClasses, suggestions, loading, displayKey , onSuggestionClick, ...inputProps}) => {
+const SuggestionInput = ({suggestions, renderSuggestion, displayKey, valueKey, loading, onChange, name, ...inputProps}) => {
 
-    const test = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("ts")
+    
+
+    const onSuggestionInputChange = (e, suggestion=null) => {
+        const passValue = !suggestion ? e.target.value : !valueKey ? suggestion : suggestion[valueKey];
+        onChange(e, passValue, name)
     }
-   
-    return (
-        <div className="suggestion-input">
-            <input {...inputProps}/>
-            <div className={dropDownClasses}>
-                {suggestions.map((suggestion, idx) => {
-                    if(!suggestion) return null;
 
-                    const displayValue = typeof suggestion === 'object' ? suggestion[displayKey] : suggestion;
-                    const key = `${idx}-${displayValue}`
+    return (
+        <div className="suggestion-input2">
+            <input {...inputProps} onChange={onSuggestionInputChange} name={name}/>
+
+
+            <div className="suggestion-input2__default-body">
+                {suggestions.map((suggestion, idx) => {
                     return (
-                        <div key={key} className={`${dropDownClasses}-item`} onClick={test}>
-                            {displayValue}
+                        <div onMouseDown={(e) => onSuggestionInputChange(e, suggestion)}>
+                            {
+                                renderSuggestion ? 
+                                    renderSuggestion(suggestion)
+                                :
+                                (
+                                    <DefaulSuggestionItem 
+                                        displayKey={displayKey}
+                                        suggestion={suggestion}
+                                        onClick={onSuggestionInputChange}
+                                    />
+                                )
+                            }       
                         </div>
-                    )
+                    )             
                 })}
             </div>
         </div>
     )
 }
 
-SuggestionInput.defaultProps  = {
-    dropDownClasses: "suggestion-input__dropdown",
-    displayKey: null,
+SuggestionInput.defaultProps = {
     suggestions: [],
-    onSuggestionClick: () => null
+    renderSuggestion: null
 }
+
+const DefaulSuggestionItem = ({suggestion, displayKey}) => (
+    <div className="suggestion-input2__default-item" >
+        {typeof suggestion === 'object' ? suggestion[displayKey] : suggestion}
+    </div>
+)
 
 export default SuggestionInput

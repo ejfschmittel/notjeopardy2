@@ -34,3 +34,42 @@
         }
     }
 }
+
+.suggestion-input2{
+    position: relative;
+
+    input{
+        width: 100%;
+        border: 1px solid #333;
+        outline: none;
+    }
+
+    input:focus{
+        border-bottom: 1px solid #666;
+        
+    }
+
+    input:focus + &__default-body{
+        display: block;
+    }
+
+    &__default-body{
+        z-index: 1;
+        display: none;
+        position: absolute;
+        background: #fff;
+        width: 100%;
+        border: 1px solid #333;
+        border-top: none;
+    }
+
+    &__default-item{
+        transition: all .3s;
+        cursor: pointer;
+        padding-left: 1rem;
+
+        &:hover{
+            background: #eee;
+        }
+    }
+}

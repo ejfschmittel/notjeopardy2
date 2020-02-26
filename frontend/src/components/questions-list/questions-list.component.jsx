@@ -45,7 +45,12 @@ const QuestionRecord = ({questionid, question}) => {
 
     return (
         <div className="question-item">
-            <h4>{question.question}</h4>
+            <h4>
+                {question.question}
+
+                {question.category ? <React.Fragment> | #{question.category.name}</React.Fragment> : null}
+     
+            </h4>
             {question.error && <div className="error-msg">{question.error}</div>}
 
             <div className="question-item__body">

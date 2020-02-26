@@ -5,9 +5,17 @@ from categories.models import Category
 import uuid
 # Create your models here.
 
+class QuizTag(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    slug = models.SlugField(max_length=16)
+    name = models.CharField(max_length=16)
+    creation_date = models.DateTimeField(auto_now=False, auto_now_add=True)
+
 class Quiz(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=128, null=False, blank=False)
+
+    tags = models.ManyToManyField(to=QuizTag)
 
     official = models.BooleanField(default=False)
     active = models.BooleanField(default=True)

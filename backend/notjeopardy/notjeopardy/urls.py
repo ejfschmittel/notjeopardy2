@@ -20,5 +20,6 @@ urlpatterns = [
     path('api/users/', include(('accounts.urls', 'users'))),
     path('api/categories/', include(('categories.urls', 'categories'))),
     path('api/questions/', include(('questions.urls', 'questions'))),
+    path('api/quiz/', include(('quizzes.urls', 'quizzes'))),
     path('admin/', admin.site.urls),
 ]

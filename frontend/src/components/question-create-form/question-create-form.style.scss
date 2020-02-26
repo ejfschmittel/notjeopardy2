@@ -7,6 +7,10 @@
         opacity: 0.8;
     }
 
+    &--empty &__radio-btn-display{
+        opacity: .6;
+    }
+
     input{
         border: none;
         margin: 0;

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from "react-redux"
 import {createQuestion, getQuestions} from "../../redux/question/question.actions"
-import SuggestionInput from "../suggestion-input/suggestion-input.component"
+import {DebouncedSuggestionInput} from "../suggestion-input/"
 import {get} from "../../redux/auth/auth.actions"
 import "./question-create-form.style.scss"
 
@@ -24,38 +24,12 @@ const emptyQuestionFormState = {
     ]
 }
 
-const useDebounce = (value, delay) => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
 
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedValue(value)
-        }, delay)
-
-        return () => {
-            clearTimeout(handler)
-        }
-    }, [value])
-
-    return debouncedValue
-}
-
-const CategorySuggestionInput = ({onSuggestionClick, value, ...otherProps}) => {
+export const CategorySuggestionInput = (props) => {
     const [categorySuggestions, setCategorySuggestions] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
 
-    const debouncedSearchTerm = useDebounce(value, 500);
-
-    useEffect(() => {
-        if(debouncedSearchTerm){
-            loadSuggestions(debouncedSearchTerm)
-        }else{
-            setCategorySuggestions([])
-        }
-    } , [debouncedSearchTerm])
-
-    const loadSuggestions = async (searchText) => {
-        setIsLoading(true)
+    const onLoadSuggestions = async (searchText) => {
+        console.log(searchText)
         const BASE_URL = "http://127.0.0.1:8000/api/"
         const url = BASE_URL + `categories/suggestions?s=${searchText}`
 
@@ -67,17 +41,17 @@ const CategorySuggestionInput = ({onSuggestionClick, value, ...otherProps}) => {
 
             console.log(error)
         }
-        setIsLoading(false)    
     }
 
+
     return (
-        <SuggestionInput 
+        <DebouncedSuggestionInput 
             placeholder="categories..."
             suggestions={categorySuggestions}
-            onSuggestionClick={onSuggestionClick}
-            value={value}
             displayKey="name"
-            {...otherProps}
+            valueKey="name"
+            onLoadSuggestions={onLoadSuggestions}
+            {...props}
         />
     )
 }
@@ -91,13 +65,11 @@ const useQuestionForm = (data = emptyQuestionFormState) => {
         setFormData({...formData, question:e.target.value})
     }
 
-    const onCategoryChange = (e) => {
-        setFormData({...formData, category:e.target.value})
+    const onCategoryChange = (e, suggestion, name) => {
+        setFormData({...formData, category: suggestion})
     }
     
-    const onCategorySuggestionClick = (suggestion) => {
-        setFormData({...formData, category: suggestion.name})
-    }
+   
     const onAnswerChange = (index, newAnswer) => {
         const {answers} = formData
 
@@ -136,13 +108,13 @@ const useQuestionForm = (data = emptyQuestionFormState) => {
             onAnswerChange,
             onQuestionChange,
             data: formData,
-            onCategorySuggestionClick
+
         }
     }
 }
 
 
-const flattenDjangoErrorObject = (errors) => {
+/*const flattenDjangoErrorObject = (errors) => {
     return Object.keys(errors).reduce((res, key) => 
             [...res, errors[key].map(error => `${key}: ${error}`)]
         ,[])
@@ -171,11 +143,11 @@ const useReduxError = (selector) => {
         rawError,
         firstError
     }
-}
+}*/
 
 const QuestionCreateForm = () => {
     const {formData, QuestionFormFields, questionFormProps} = useQuestionForm()
-    const { firstError: createErrorMessage  } = useReduxError(({questionReducer}) => questionReducer.createQuestionError)
+    //const { firstError: createErrorMessage  } = useReduxError(({questionReducer}) => questionReducer.createQuestionError)
  
     const dispatch = useDispatch();
 
@@ -205,7 +177,7 @@ const QuestionCreateForm = () => {
             <form className="form">
                 <h3 className="form__headline">Create new question</h3>
 
-                {createErrorMessage && <div style={{color: "red"}}>{createErrorMessage}</div>}
+               
                 <QuestionFormFields {...questionFormProps} />
                   
                 <div className="form__field">
@@ -217,7 +189,7 @@ const QuestionCreateForm = () => {
 }
 
 
-const QuestionFormFields = ({onQuestionChange,onCategorySuggestionClick, onAnswerChange, onCategoryChange, data}) => {
+const QuestionFormFields = ({onQuestionChange, onAnswerChange, onCategoryChange, data}) => {
 
 
     
@@ -229,7 +201,7 @@ const QuestionFormFields = ({onQuestionChange,onCategorySuggestionClick, onAnswe
             </div>
 
             <div className="form__field">
-                <CategorySuggestionInput value={data.category} onChange={onCategoryChange} onSuggestionClick={onCategorySuggestionClick} />
+                <CategorySuggestionInput value={data.category} onChange={onCategoryChange}  />
             </div>
 
             <div className="form__field">

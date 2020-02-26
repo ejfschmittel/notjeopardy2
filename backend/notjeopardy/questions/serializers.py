@@ -23,6 +23,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     
     category_name_input = serializers.CharField(write_only=True)
+    category = CategorySerializer(required=False, allow_null=True)
     # add creator serializer
     # check if active for user
 
