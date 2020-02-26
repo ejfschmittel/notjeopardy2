@@ -5,3 +5,9 @@ body{
     line-height: 1.7;
     color: $default-text-color;
 }
+
+.error-msg{
+    color: red;
+    font-size: 1rem;
+    margin: .1rem 0;
+}

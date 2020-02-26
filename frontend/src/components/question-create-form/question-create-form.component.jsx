@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from "react-redux"
 import {createQuestion, getQuestions} from "../../redux/question/question.actions"
+import SuggestionInput from "../suggestion-input/suggestion-input.component"
+import {get} from "../../redux/auth/auth.actions"
 import "./question-create-form.style.scss"
 
 
@@ -13,12 +15,71 @@ import "./question-create-form.style.scss"
 
 const emptyQuestionFormState = {
     question: "",
+    category: "",
     answers: [
         {answer: "", correct: true},
         {answer: "", correct: false},
         {answer: "", correct: false},
         {answer: "", correct: false},
     ]
+}
+
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value)
+        }, delay)
+
+        return () => {
+            clearTimeout(handler)
+        }
+    }, [value])
+
+    return debouncedValue
+}
+
+const CategorySuggestionInput = ({onSuggestionClick, value, ...otherProps}) => {
+    const [categorySuggestions, setCategorySuggestions] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+
+    const debouncedSearchTerm = useDebounce(value, 500);
+
+    useEffect(() => {
+        if(debouncedSearchTerm){
+            loadSuggestions(debouncedSearchTerm)
+        }else{
+            setCategorySuggestions([])
+        }
+    } , [debouncedSearchTerm])
+
+    const loadSuggestions = async (searchText) => {
+        setIsLoading(true)
+        const BASE_URL = "http://127.0.0.1:8000/api/"
+        const url = BASE_URL + `categories/suggestions?s=${searchText}`
+
+        try {
+            const response = await get(url)
+            setCategorySuggestions(response)
+            console.log(response)
+        }catch(error){
+
+            console.log(error)
+        }
+        setIsLoading(false)    
+    }
+
+    return (
+        <SuggestionInput 
+            placeholder="categories..."
+            suggestions={categorySuggestions}
+            onSuggestionClick={onSuggestionClick}
+            value={value}
+            displayKey="name"
+            {...otherProps}
+        />
+    )
 }
 
 
@@ -30,6 +91,13 @@ const useQuestionForm = (data = emptyQuestionFormState) => {
         setFormData({...formData, question:e.target.value})
     }
 
+    const onCategoryChange = (e) => {
+        setFormData({...formData, category:e.target.value})
+    }
+    
+    const onCategorySuggestionClick = (suggestion) => {
+        setFormData({...formData, category: suggestion.name})
+    }
     const onAnswerChange = (index, newAnswer) => {
         const {answers} = formData
 
@@ -64,9 +132,11 @@ const useQuestionForm = (data = emptyQuestionFormState) => {
         formData,
         QuestionFormFields: QuestionFormFields,
         questionFormProps: {
+            onCategoryChange,
             onAnswerChange,
             onQuestionChange,
-            data: formData
+            data: formData,
+            onCategorySuggestionClick
         }
     }
 }
@@ -106,9 +176,9 @@ const useReduxError = (selector) => {
 const QuestionCreateForm = () => {
     const {formData, QuestionFormFields, questionFormProps} = useQuestionForm()
     const { firstError: createErrorMessage  } = useReduxError(({questionReducer}) => questionReducer.createQuestionError)
-    const questions = useSelector(({questionReducer}) => questionReducer.questionsById)
+ 
     const dispatch = useDispatch();
-    console.log(questions)
+
 
    useEffect(() => {
        dispatch(getQuestions())
@@ -117,12 +187,14 @@ const QuestionCreateForm = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         
+        const {category, ...otherFormData} = formData
         // remove empty questions before sending
         let sendData = {
-            ...formData,
+            ...otherFormData,
             answers: formData.answers.reduce((res, answer) => 
                 answer.answer ? [...res, answer] : res
-            ,[])
+            ,[]),
+            category_name_input: category
         }
 
         dispatch(createQuestion(sendData))
@@ -145,8 +217,10 @@ const QuestionCreateForm = () => {
 }
 
 
-const QuestionFormFields = ({onQuestionChange, onAnswerChange, data}) => {
-    console.log(data)
+const QuestionFormFields = ({onQuestionChange,onCategorySuggestionClick, onAnswerChange, onCategoryChange, data}) => {
+
+
+    
     // => 
     return (
         <React.Fragment>
@@ -155,8 +229,12 @@ const QuestionFormFields = ({onQuestionChange, onAnswerChange, data}) => {
             </div>
 
             <div className="form__field">
-                <AnswerInput answers={data.answers} index={0} onAnswerChange={onAnswerChange}/>
+                <CategorySuggestionInput value={data.category} onChange={onCategoryChange} onSuggestionClick={onCategorySuggestionClick} />
             </div>
+
+            <div className="form__field">
+                <AnswerInput answers={data.answers} index={0} onAnswerChange={onAnswerChange}/>
+            </div>   
 
             <HideShowSlider>
                 <div className="form__field">

@@ -1,0 +1,36 @@
+.suggestion-input{
+    position: relative;
+
+    
+
+    input:focus + &__dropdown{
+        display: block;
+    }
+
+    input:focus{
+        border-bottom: 1px solid #aaa;
+    }
+
+    &__dropdown{
+        position: absolute;
+        background: #fff;
+        width: 100%;
+        z-index: 1;
+        border: 1px solid #333;
+        border-top: none;
+        max-height: 16rem;
+        overflow-y: scroll;
+        display: none;
+       
+        &-item{
+            padding: .3rem 0;
+            padding-left: 1rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+
+            &:hover{
+                background: #eee;
+            }
+        }
+    }
+}

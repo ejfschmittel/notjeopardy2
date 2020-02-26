@@ -1,13 +1,12 @@
 import { combineReducers } from "redux"
-import categoryTypes from "../category.types"
+import questionTypes from "../question.types"
 
 const isPending = (state = false, action) => {
     switch(action.type){
-        case categoryTypes.CREATE_CATEGORY_START:
-
+        case questionTypes.CREATE_QUESTION_START:
             return true;
-        case categoryTypes.CREATE_CATEGORY_SUCCESS:
-        case categoryTypes.CREATE_CATEGORY_ERROR:
+        case questionTypes.CREATE_QUESTION_ERROR:
+        case questionTypes.CREATE_QUESTION_SUCCESS:
             return false;
         default:
             return state
@@ -16,10 +15,10 @@ const isPending = (state = false, action) => {
 
 const error = (state = null, action) => {
     switch(action.type){
-        case categoryTypes.CREATE_CATEGORY_START:
-        case categoryTypes.CREATE_CATEGORY_SUCCESS:
+        case questionTypes.CREATE_QUESTION_START:
+        case questionTypes.CREATE_QUESTION_SUCCESS:
             return null;
-        case categoryTypes.CREATE_CATEGORY_ERROR:
+        case questionTypes.CREATE_CATEGORY_ERROR:
             return action.error
         default:
             return state
@@ -28,7 +27,7 @@ const error = (state = null, action) => {
 
 const lastCreated = (state = null, action) => {
     switch(action.type){
-        case categoryTypes.CREATE_CATEGORY_SUCCESS:
+        case questionTypes.CREATE_QUESTION_SUCCESS:
             return action.response
         default:
             return state

@@ -9,10 +9,9 @@ class Category(models.Model):
 
     official = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-    favorited = models.ManyToManyField(to=MyUser, related_name="favorite_categories")
-
+   
     creation_date = models.DateTimeField(auto_now=False, auto_now_add=True)
-    creator = models.ForeignKey(to=MyUser, on_delete=models.SET_NULL, null=True)
+    creator = models.ForeignKey(to=MyUser, on_delete=models.SET_NULL, null=True,blank=True, default=None)
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -26,7 +25,7 @@ class Category(models.Model):
 
 class UserCategoryFavorites(models.Model):
     user = models.ForeignKey(to=MyUser, on_delete=models.CASCADE)
-    category = models.ForeignKey(to=Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(to=Category, on_delete=models.CASCADE, related_name="favorited_category")
     crated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

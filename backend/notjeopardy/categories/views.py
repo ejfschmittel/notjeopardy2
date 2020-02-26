@@ -51,6 +51,21 @@ class CategoryViewset(viewsets.ModelViewSet):
             pass
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=False, methods=['get'], url_path="get_suggestions", url_name="get_suggestions")
+    def get_suggestions(self,request, *args, **kwargs):
+        # official + favorited + creator
+        # all, get, filter, exclude
+        searchTerm = request.query_params.get("s")
+
+        # official + created
+        official_and_created = Category.objects.filter(
+            Q(official=True) | ( Q(creator__isnull=False) & Q(creator=request.user)) | Q(favorited_category__user=request.user)
+        ).filter(name__contains=searchTerm)
+
+        serializer = CategorySerializer(official_and_created, many=True)
+        return Response(serializer.data)
+
+
     def get_serializer_class(self):
         user = self.request.user
         if not user.is_anonymous and user.is_admin :

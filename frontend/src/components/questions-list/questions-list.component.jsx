@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from "react-redux"
-import {getQuestions, deleteQuestion} from "../../redux/question/question.actions"
-import {QUESTION_STATE, QUESTION_REDUCER_UTIL_MAP} from "../../redux/question/question.reducer"
-import {useItemHook, ITEM_ACTIONS} from "../../redux/utils/ReducerUtils"
+import {getQuestions, deleteQuestion, favoriteQuestion, unfavoriteQuestion} from "../../redux/question/question.actions"
+
+
 import "./questions-list.styles.scss"
 
 const QuestionsList = () => {
     const dispatch = useDispatch()
-    const questionsById = useSelector(({questionReducer}) => questionReducer[QUESTION_STATE.QUESTIONS_BY_ID])
-    const questionsIdList = useSelector(({questionReducer}) => questionReducer[QUESTION_STATE.QUESTION_ID_LIST])
+    const questionsById = useSelector(({questionReducer}) => questionReducer.byId)
+    const questionsIdList = useSelector(({questionReducer}) => questionReducer.byList.questions.list)
 
 
     useEffect(() => {
@@ -19,25 +19,35 @@ const QuestionsList = () => {
         <section className="section">
             {questionsIdList && questionsIdList.map((questionId) => {
 
-                return <QuestionRecord key={questionId} question={questionsById[questionId]}/>
+                return <QuestionRecord key={questionId} questionid={questionId} question={questionsById[questionId]}/>
             })}
         </section>
     )
 }
 
-const QuestionRecord = ({question}) => {
+const QuestionRecord = ({questionid, question}) => {
     const dispatch = useDispatch()
-    const {error, isPending, currentAction} = useItemHook(question, ({questionReducer}) => questionReducer, QUESTION_REDUCER_UTIL_MAP)
+   
+    //const question = useSelector(({questionReducer}) => questionReducer.byId)
 
+    //const question = useSelector(({questionReducer}) => questionReducer.byId[questionid])
 
-
+   
     const performDelte = () => {
         dispatch(deleteQuestion(question.id))
     }
 
+    const performFavorite = () => {
+
+    }
+
+
+
     return (
         <div className="question-item">
             <h4>{question.question}</h4>
+            {question.error && <div className="error-msg">{question.error}</div>}
+
             <div className="question-item__body">
                 <div className="question-item__show-answers-btn">
 
@@ -54,10 +64,26 @@ const QuestionRecord = ({question}) => {
                 </div>
             </div>
             <div className="question-item__footer">
-                <button disabled={isPending}>Edit</button>
-                <button onClick={performDelte} disabled={isPending}>
-                    {currentAction === ITEM_ACTIONS.DELETE ? "deleting..." : "Delete" }
-                </button>
+                {question.is_favorited ? 
+                    <button disabled={question.isPending}  onClick={() => dispatch(unfavoriteQuestion(question.id))}>
+                        {question.isFavoriting ? "...saving" : "Unfavorite"}
+                    </button>
+                    :
+                    <button disabled={question.isPending} onClick={() => dispatch(favoriteQuestion(question.id))}>
+                        {question.isFavoriting ? "...saving" : "Favorite"}
+                    </button>    
+                }
+
+
+                {question.is_owner && (
+                    <React.Fragment>
+                        <button disabled={question.isPending}>Edit</button>
+                        <button onClick={performDelte} disabled={question.isPending}>
+                            {question.isDeleting ? "deleting..." : "Delete" }
+                        </button>
+                    </React.Fragment>
+                    )
+                }
             </div>
         </div>
     )

@@ -9,7 +9,7 @@ class Question(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # add image option
     question = models.CharField(max_length=256, null=False, blank=False)
-
+    category = models.ForeignKey(to=Category, on_delete=models.SET_NULL, null=True, default=None)
 
 
     is_official = models.BooleanField(default=False)
@@ -38,10 +38,10 @@ class Answer(models.Model):
 class UserQuestionFavorite(models.Model):
     user = models.ForeignKey(to=MyUser, on_delete=models.CASCADE)
     question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name="question_favorites")
-    crated = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.username + " favorited " + self.question.id 
+        return self.user.username + " favorited " + str(self.question.id) 
 
     class Meta:
         unique_together = ('user','question',)

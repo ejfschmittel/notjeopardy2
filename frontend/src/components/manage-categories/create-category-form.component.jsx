@@ -37,14 +37,12 @@ const CreateCategoryForm = () => {
     const [name, setName] = useState("");
     const dispatch = useDispatch()
 
-    const createCategoryPending = useSelector(({categoryReducer}) => categoryReducer.createCategoryPending) 
+    const createCategoryPending = useSelector(({categoryReducer}) => categoryReducer.create.isPending) 
     const createdCategory = useSelector(({categoryReducer}) => categoryReducer.createdCategory)
-    const createCategoryError = useSelector(({categoryReducer}) => categoryReducer.createCategoryError)
-    const categoryAlreadyExisted = useSelector(({categoryReducer}) => categoryReducer.categoryAlreadyExisted)
+    const createCategoryError = useSelector(({categoryReducer}) => categoryReducer.create.error)
 
-    /*useRequestFinished(createCategoryPending, () => {
-        console.log(categoryAlreadyExisted)
-    }, [createdCategory, createCategoryError, categoryAlreadyExisted])*/
+
+
 
     const onChange = (e) => {
         setName(e.target.value)
@@ -55,6 +53,12 @@ const CreateCategoryForm = () => {
         dispatch(createCategory({name}))
     }
 
+    if(createCategoryError){
+        console.log(createCategoryError.name[0])
+    }
+
+
+
     return (
     <section className="section section--border-bottom">
         <form className="form">
@@ -63,10 +67,15 @@ const CreateCategoryForm = () => {
                 To create a new category its name must be unique and formed only by lower case characters, spaces and numbers.
                 If a category already exists you can favorite it instead.
             </p>
-        
-             {categoryAlreadyExisted && (
-                 <p></p>
-             )}
+
+            {createCategoryError && 
+                <div>
+                   {createCategoryError.name}
+                   {createCategoryError.name[0] === "category with this name already exists." && <span>
+                        You can <button>favorite it</button>  
+                    </span>} 
+                </div>
+            }
 
              <div className="form__field form__field--inline">
                 <input name="name" value={name} onChange={onChange}/>
