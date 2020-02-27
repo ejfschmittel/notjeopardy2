@@ -15,14 +15,14 @@ class Quiz(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=128, null=False, blank=False)
 
-    tags = models.ManyToManyField(to=QuizTag)
+    tags = models.ManyToManyField(to=QuizTag, blank=True)
 
     official = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     public = models.BooleanField(default=True)
     
-    categories = models.ManyToManyField(Category, related_name="quiz_categories")
-    questions = models.ManyToManyField(Question, related_name="quiz_questions")
+    categories = models.ManyToManyField(Category, related_name="quiz_categories", blank=True)
+    questions = models.ManyToManyField(Question, related_name="quiz_questions", blank=True)
 
     creation_date = models.DateTimeField(auto_now=False, auto_now_add=True)
     last_edit_date = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -32,4 +32,4 @@ class Quiz(models.Model):
         verbose_name_plural = "Quizzes"
 
     def __str__(self):
-        return self.name
+        return self.title

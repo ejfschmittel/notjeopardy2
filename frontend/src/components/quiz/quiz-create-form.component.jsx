@@ -1,29 +1,67 @@
 
 import React, {useState} from 'react'
+import {useDispatch, useSelector} from "react-redux"
 import CategorySelection, {useCategoriesSelectionComponent} from "../quiz/category-selection.component"
+import {createQuiz} from "../../redux/quiz/quiz.actions"
+/*
+    TODO
+    - test create quiz (title + x catgories)
+    - create autofill function (backend, reduxlist) () => official only /categories/official/
+    - ask autofill if not 6 categories
+    - cap at 6 categories per quiz
+
+
+*/
 
 const QuizCreateFrom = () => {
-    const [title, setTitle] = useState()
+    const [title, setTitle] = useState("")
     const { categories,getSendCategories,categoryComponentProps } = useCategoriesSelectionComponent()
+    const dispatch = useDispatch()
+    const isLoading = useSelector(({quizReducer}) => quizReducer.create.isPending)
+    console.log(isLoading)
+    console.log("isloading")
+    const onCreateClick = (e) => {
+        e.preventDefault();
 
-    console.log(categoryComponentProps)
+        const sendData = {
+            title,
+            categories: getSendCategories(categories)
+        }
+       
+        dispatch(createQuiz(sendData))    
+    }
+
+    const onTitleChange = (e) => setTitle(e.target.value) 
 
     return (
+       
         <div className="container">
-            <div>
-                <h2>Create Quiz</h2>
-                <form className="form">
-                    <div className="form__field">
-                        <input 
-                            name="title"
-                            placeholder="title"
-                        />
-                    </div>
-                    
-                    <CategorySelection {...categoryComponentProps} />
-                </form>
-            </div>
+            <section className="section">
+                <div>
+                    <h2>Create Quiz</h2>
+                    <form className="form">
+                        <div className="form__field">
+                            <input 
+                                value={title}
+                                name="title"
+                                placeholder="title"
+                                onChange={onTitleChange}
+                            />
+                        </div>
+                        
+                        <CategorySelection {...categoryComponentProps} />
+                        <div className="form__field">
+                            <button disabled={isLoading} onClick={onCreateClick}>AutoFill Categories</button>
+                        </div>
+                        <div className="form__field" >
+                            <button onClick={onCreateClick} disabled={isLoading}>Create Quiz</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </section>
         </div>
+     
     )
 }
 

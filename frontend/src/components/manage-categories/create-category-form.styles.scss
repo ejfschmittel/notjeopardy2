@@ -67,6 +67,12 @@
             box-shadow: none;
             outline: none;
         }
+
+        &:disabled{
+            color: #aaa;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
     }
 
     &__input{

@@ -9,7 +9,7 @@ const defaultNames = new Array(6).fill().map((_, idx) => `category_${idx+1}`)
 const getEmptyState = (names) => {
     const obj = {}
     names.forEach(name => {
-        obj[name] = {name: ""}
+        obj[name] = ""
     })
     return obj;
 }
@@ -17,12 +17,15 @@ const getEmptyState = (names) => {
 export const useCategoriesSelectionComponent = (categoryNames=defaultNames, initialCategories=getEmptyState(categoryNames)) => {
     const [categories, setCategories] = useState(initialCategories)
 
-    const onChange = (e) => {
-
+    const onChange = (e, value, name) => {
+        setCategories({
+            ...categories,
+            [name]: value
+        })
     }
 
     const getSendCategories = (categories) => {
-        return Object.keys(categories).map(catKey => ({...categories[catKey]}))
+        return Object.keys(categories).reduce((res, catKey) => (categories[catKey] ? [...res, {name: categories[catKey]}] : res), [])
     }
 
     return {
@@ -39,21 +42,6 @@ export const useCategoriesSelectionComponent = (categoryNames=defaultNames, init
 
 
 const CategoriesSelectionComponent = ({categories, onChange, categoryComponentNames}) => {
-
-    const onCategoryChange = (e, suggestion, name) => {
-        let value = null;
-
-        if(!name){
-            name = e.target.name
-            value = e.target.value
-        }else{
-            value = suggestion.name
-        }
-
-        onChange(e, name, value)
-    }
-
-
     return (
         <div>
             {categoryComponentNames.map(name => {
@@ -61,11 +49,8 @@ const CategoriesSelectionComponent = ({categories, onChange, categoryComponentNa
                     <div key={name} className="form__field">
                         <CategorySuggestionInput 
                             value={categories[name]}
-                            onChange={onCategoryChange}
-                            onSuggestionClick={(e, suggestion) => onCategoryChange(e, suggestion, name)}
-                            name={name}
-                            dataKey={"name"}
-                            
+                            onChange={onChange}                      
+                            name={name}                                
                         />
                     </div>     
                 )

@@ -33,7 +33,7 @@ const SuggestionInput = ({suggestions, renderSuggestion, displayKey, valueKey, l
             <div className="suggestion-input2__default-body">
                 {suggestions.map((suggestion, idx) => {
                     return (
-                        <div onMouseDown={(e) => onSuggestionInputChange(e, suggestion)}>
+                        <div key={suggestion.id || idx} onMouseDown={(e) => onSuggestionInputChange(e, suggestion)}>
                             {
                                 renderSuggestion ? 
                                     renderSuggestion(suggestion)

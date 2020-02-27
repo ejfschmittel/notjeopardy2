@@ -25,21 +25,31 @@ const emptyQuestionFormState = {
 }
 
 
+/*
+    TODO: 
+    - MOVE TO DIFFERENT FILE
+    - make smarter: check wordcount & lastrequest
+
+*/
+
 export const CategorySuggestionInput = (props) => {
     const [categorySuggestions, setCategorySuggestions] = useState([])
 
+
     const onLoadSuggestions = async (searchText) => {
-        console.log(searchText)
-        const BASE_URL = "http://127.0.0.1:8000/api/"
-        const url = BASE_URL + `categories/suggestions?s=${searchText}`
+        if(searchText){
+            const BASE_URL = "http://127.0.0.1:8000/api/"
+            const url = BASE_URL + `categories/suggestions?s=${searchText}`
 
-        try {
-            const response = await get(url)
-            setCategorySuggestions(response)
-            console.log(response)
-        }catch(error){
-
-            console.log(error)
+            try {
+                const response = await get(url)
+                setCategorySuggestions(response)
+                
+            }catch(error){
+                console.log(error)
+            }
+        }else{
+            setCategorySuggestions([])
         }
     }
 
@@ -47,6 +57,7 @@ export const CategorySuggestionInput = (props) => {
     return (
         <DebouncedSuggestionInput 
             placeholder="categories..."
+            autocomplete="off"
             suggestions={categorySuggestions}
             displayKey="name"
             valueKey="name"

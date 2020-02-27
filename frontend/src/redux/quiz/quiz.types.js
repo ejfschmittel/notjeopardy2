@@ -1,0 +1,7 @@
+const quizTypes = {
+    CREATE_QUIZ_START: "CREATE_QUIZ_START",
+    CREATE_QUIZ_SUCCESS: "CREATE_QUIZ_SUCCESS",
+    CREATE_QUIZ_ERROR: "CREATE_QUIZ_ERROR",
+}
+
+export default quizTypes
