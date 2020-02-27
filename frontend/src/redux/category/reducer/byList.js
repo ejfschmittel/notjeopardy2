@@ -1,6 +1,35 @@
 import { combineReducers } from "redux"
 import categoryTypes from "../category.types"
 
+
+const createOfficialCategories = () => {
+    const list = (state = [], action) => {
+        switch(action.type){
+            case categoryTypes.FETCH_OFFICIAL_CATEGORIES_SUCCESS:
+                return action.response.map(category => category.id);
+            default:
+                return state
+        }    
+    }
+   
+    const isPending = (state = true, action) => {
+        switch(action.type){
+            case categoryTypes.FETCH_OFFICIAL_CATEGORIES_START:
+                return true;
+            case categoryTypes.FETCH_OFFICIAL_CATEGORIES_ERROR:
+            case categoryTypes.FETCH_OFFICIAL_CATEGORIES_SUCCESS:
+                return false;
+            default:
+                return state
+        }    
+    }
+
+    return combineReducers({
+        list,
+        isPending
+    })
+}
+
 const createCategories = () => {
     const list = (state = [], action) => {
         switch(action.type){
@@ -61,5 +90,6 @@ const createUserCategories = () => {
 
 export default combineReducers({
     categories: createCategories(),
-    userCategories: createUserCategories()
+    userCategories: createUserCategories(),
+    official: createOfficialCategories()
 })

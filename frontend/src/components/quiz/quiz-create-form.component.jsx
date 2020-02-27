@@ -1,8 +1,37 @@
 
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux"
 import CategorySelection, {useCategoriesSelectionComponent} from "../quiz/category-selection.component"
 import {createQuiz} from "../../redux/quiz/quiz.actions"
+
+/*
+    https://stackoverflow.com/questions/37833307/django-rest-framework-post-update-if-existing-or-create
+    currentGameQuiz: {}
+        quizDetail: { // used for create / edit / or detail}
+
+    }
+
+    {
+        id:
+        title:
+        categoryObject: {
+            cat1: {id: "", "name"},
+            cat2: {id: "", "name"}
+        },
+        quizQuestions: {
+            cat1: [{}]
+        }
+    }
+
+    quizQuestion: {
+        quizQuestionID: "xyz"
+        catid: "xyz"
+        questionid: "xyz"
+        points: 
+    }
+
+*/
+
 /*
     TODO
     - test create quiz (title + x catgories)
@@ -13,13 +42,47 @@ import {createQuiz} from "../../redux/quiz/quiz.actions"
 
 */
 
+const useOfficialCategories = () => {
+    const officalCategoriesIdList = useSelector(({quizReducer}) => quizReducer.byList.official.list)
+    const allCategoriesById = useSelector(({quizReducer}) => quizReducer.byId)
+    const dispatch = useDispatch()
+    const [officialCategories, setOfficialCategories] = useState([])
+
+    useEffect(() => {
+        setOfficialCategories(
+            officalCategoriesIdList.map(catID => allCategoriesById[catID])
+        )
+    }, [officalCategoriesIdList])
+
+    const loadOfficialCategories = async () => {
+        // dispatch
+        await dispatch()
+    }
+
+    const autoFillCategories = async (categoryMap) => {
+        if(!officalCategoriesIdList || officalCategoriesIdList.length == 0){
+            await loadOfficialCategories()
+        }
+    }
+
+
+    return {
+        officialCategories,
+        officalCategoriesIdList,
+        loadOfficialCategories,
+        autoFillCategories,
+    }
+
+}
+
 const QuizCreateFrom = () => {
     const [title, setTitle] = useState("")
-    const { categories,getSendCategories,categoryComponentProps } = useCategoriesSelectionComponent()
+    const { categories,getSendCategories,categoryComponentProps, setCategories} = useCategoriesSelectionComponent()
     const dispatch = useDispatch()
     const isLoading = useSelector(({quizReducer}) => quizReducer.create.isPending)
-    console.log(isLoading)
-    console.log("isloading")
+
+    const officialCategories = useSelector(({quizReducer}) => quizReducer.create.isPending)
+
     const onCreateClick = (e) => {
         e.preventDefault();
 
@@ -32,6 +95,10 @@ const QuizCreateFrom = () => {
     }
 
     const onTitleChange = (e) => setTitle(e.target.value) 
+
+    const autoFillCategories = () => {
+
+    }
 
     return (
        
@@ -50,7 +117,7 @@ const QuizCreateFrom = () => {
                         </div>
                         
                         <CategorySelection {...categoryComponentProps} />
-                        <div className="form__field">
+                        <div className="form__field" onClick={autoFillCategories}>
                             <button disabled={isLoading} onClick={onCreateClick}>AutoFill Categories</button>
                         </div>
                         <div className="form__field" >

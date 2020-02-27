@@ -31,6 +31,7 @@ export const useCategoriesSelectionComponent = (categoryNames=defaultNames, init
     return {
         categories,
         getSendCategories,
+        setCategories,
         categoryComponentProps: {
             categories,
             onChange,

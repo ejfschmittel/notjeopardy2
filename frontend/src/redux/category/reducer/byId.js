@@ -21,7 +21,7 @@ const byId = (state = {}, action) => {
     switch(action.type){
         case categoryTypes.FETCH_CATEGORIES_SUCCESS:
         case categoryTypes.FETCH_USER_CATEGORIES_SUCCESS:
-
+        case categoryTypes.FETCH_OFFICIAL_CATEGORIES_SUCCESS:
             const newState = {...state}
             action.response.forEach(category => {
                 newState[category.id] = category

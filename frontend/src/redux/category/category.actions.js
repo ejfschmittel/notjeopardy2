@@ -30,6 +30,26 @@ export const getCatgories = () => async (dispatch) => {
     }
 }
 
+export const getOfficialCategories = () => async (dispatch) => {
+    dispatch({ type: categoryTypes.FETCH_OFFICIAL_CATEGORIES_START})
+
+    const url = BASE_API_URL + "/categories/official/"
+
+    try{
+        const response = await get(url)
+
+        return dispatch({
+            type: categoryTypes.FETCH_OFFICIAL_CATEGORIES_SUCCESS,
+            response,
+        })
+    }catch(error){
+        dispatch({
+            type: categoryTypes.FETCH_OFFICIAL_CATEGORIES_ERROR,
+            error: error.response,
+        })
+    }
+}
+
 export const createCategory = (categoryData) => async (dispatch) => {
     dispatch({type: categoryTypes.CREATE_CATEGORY_START})
 

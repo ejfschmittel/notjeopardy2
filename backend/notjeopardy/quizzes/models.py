@@ -33,3 +33,18 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
+
+class QuizCategory(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    category = models.ForeignKey(to=Category, on_delete=models.PROTECT)
+    quiz = models.ForeignKey(to=Quiz, on_delete=models.CASCADE)   
+
+class QuizQuestion(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    question = models.ForeignKey(to=Question, on_delete=models.PROTECT)
+    category = models.ForeignKey(to=QuizCategory, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(to=Quiz, on_delete=models.CASCADE)
+    points = models.IntegerField()
+
+    def __str__(self):
+        return "question " + str(self.id) + " for " + Quiz.title
