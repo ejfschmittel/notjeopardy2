@@ -18,12 +18,57 @@ user / favorites /
 '''
 class CategoryViewset(viewsets.ModelViewSet):
     queryset = Category.objects.all()
-    permission_classes = [permissions.AllowAny]
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    #permission_classes = (IsAuthenticated,permissions.)
 
     def perform_create(self, serializer):
         category = serializer.save(creator=self.request.user)
         UserCategoryFavorites.objects.create(category=category, user=self.request.user)
+
+
+
+    def list(self,request, *args, **kwargs):
+        # filter by official, searchTerm, owned, favorited
+        # default include all
+        searchTerm = request.query_params.get("s")
+        includeFlags = request.query_params.get("include")
+
+        
+        flagQueryDict = {
+            "official": Q(official=True),
+            "owner":  (Q(creator__isnull=False) & Q(creator=request.user)) if request.user and not request.user.is_anonymous else Q(),
+            "favorited": Q(favorited_category__user=request.user) if request.user and not request.user.is_anonymous  else Q(),
+        }
+
+        q = Q()
+        if(includeFlags):
+            q = Q()
+            for flag in includeFlags.split(","):
+                if flagQueryDict.get(flag):
+                    q |= flagQueryDict.get(flag)
+
+        
+        offical = Category.objects.all()
+        offical = offical.filter(q)
+         
+        if searchTerm:
+            offical = offical.filter(name__contains=searchTerm)
+
+        serializer = CategorySerializer(offical, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], url_path="get_official", url_name="get_official")
+    def get_official(self,request, *args, **kwargs):
+        searchTerm = request.query_params.get("s")
+        offical = Category.objects.filter(official=True)
+
+      
+        if searchTerm:
+     
+            offical = offical.filter(name__contains=searchTerm)
+
+        serializer = CategorySerializer(offical, many=True)
+        return Response(serializer.data)
 
     @action(detail=True, methods=['post'], url_path="favorite_category", url_name="favorite_category")
     def favorite_category(self,request, pk, *args, **kwargs):
