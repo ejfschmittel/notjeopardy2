@@ -1,14 +1,18 @@
 import React, {useState} from 'react'
 import {DebouncedSuggestionInput} from "./suggestion-input"
+import {get} from "../redux/auth/auth.actions"
 
 const CategorySuggestionInput = (props) => {
     const [categorySuggestions, setCategorySuggestions] = useState([])
 
 
-    const onLoadSuggestions = async (searchText) => {
-        if(searchText){
+
+
+    const onLoadSuggestions = async (suggestion) => {
+        if(suggestion.name){
+
             const BASE_URL = "http://127.0.0.1:8000/api/"
-            const url = BASE_URL + `categories/suggestions?s=${searchText}`
+            const url = BASE_URL + `categories/suggestions?s=${suggestion.name}`
 
             try {
                 const response = await get(url)
@@ -26,11 +30,11 @@ const CategorySuggestionInput = (props) => {
     return (
         <DebouncedSuggestionInput 
             placeholder="categories..."
-            autocomplete="off"
+            autoComplete="off"
             suggestions={categorySuggestions}
-            displayKey="name"
+            suggestionKey="name"
             valueKey="name"
-            onLoadSuggestions={onLoadSuggestions}
+            onLoadSuggestions={onLoadSuggestions} 
             {...props}
         />
     )

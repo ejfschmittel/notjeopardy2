@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from "react-redux"
 import {createQuestion, getQuestions} from "../../redux/question/question.actions"
+import CategorySuggestionInput from "../category-suggestion-input.component"
 
-import {get} from "../../redux/auth/auth.actions"
 import "./question-create-form.style.scss"
 
 

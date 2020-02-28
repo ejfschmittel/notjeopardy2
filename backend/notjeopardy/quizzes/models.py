@@ -23,7 +23,7 @@ class Quiz(models.Model):
     
     creation_date = models.DateTimeField(auto_now=False, auto_now_add=True)
     last_edit_date = models.DateTimeField(auto_now=True, auto_now_add=False)
-    creator = models.ForeignKey(to=MyUser, on_delete=models.SET_NULL, null=True)
+    creator = models.ForeignKey(to=MyUser, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Quizzes"

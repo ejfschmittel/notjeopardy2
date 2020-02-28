@@ -20,9 +20,10 @@ const DebouncedSuggestionInput = ({debounceDelay, value, onLoadSuggestions,...ot
     //const [isLoading, setIsLoading] = useState(false)
     const debouncedSearchTerm = useDebounce(value, debounceDelay);
 
+
     useEffect(() => {
         const handleLoadingAsync = async (debouncedSearchTerm) => {
-            console.log("handle load")
+     
             // set loading
             await onLoadSuggestions(debouncedSearchTerm)
             // end loading

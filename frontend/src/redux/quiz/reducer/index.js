@@ -1,6 +1,6 @@
 import {combineReducers} from "redux"
 
-import create from "./create"
+import edit from "./edit"
 
 const isPending = (state = false, action) => {
     console.log(action)
@@ -8,6 +8,6 @@ const isPending = (state = false, action) => {
 }
 
 export default combineReducers({
-    create,
+    edit,
     isPending
 })

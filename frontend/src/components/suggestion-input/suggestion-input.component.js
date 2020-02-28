@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 import "./suggestion-input.styles.scss"
 
@@ -16,33 +16,54 @@ import "./suggestion-input.styles.scss"
 
 */
 
-const SuggestionInput = ({suggestions, renderSuggestion, displayKey, valueKey, loading, onChange, name, ...inputProps}) => {
 
+
+const SuggestionInput = ({suggestions, renderSuggestion, suggestionKey, valueKey, loading, onChange, name, value, getChangedObject, ...inputProps}) => {
+    const valueIsObject = typeof value === 'object' 
+
+    if(valueIsObject){
+        if(!valueKey) throw new Error("If an object is supplied as value to SuggestionInput the 'valueKey' object must be set.")
+    }
     
 
-    const onSuggestionInputChange = (e, suggestion=null) => {
+    /*const onSuggestionInputChange = (e, suggestion=null) => {
+        console.log("on change")
+        console.log(e)
+        console.log(suggestion)
         const passValue = !suggestion ? e.target.value : !valueKey ? suggestion : suggestion[valueKey];
         onChange(e, passValue, name)
+    } */
+    
+
+    const onSuggestionClick = (e, suggestion) => {
+        onChange(e, suggestion, name)
     }
+
+    const onInputChange = (e) => {
+        const changedValue = valueIsObject ? getChangedObject(e.target.value, valueKey) : e.target.value; 
+        onChange(e, changedValue, e.target.name)
+    }
+    
+    const inputValue = !value ? "" : valueKey ? value[valueKey] : value; 
 
     return (
         <div className="suggestion-input2">
-            <input {...inputProps} onChange={onSuggestionInputChange} name={name}/>
+            <input value={inputValue} {...inputProps} onChange={onInputChange} name={name}/>
 
 
             <div className="suggestion-input2__default-body">
                 {suggestions.map((suggestion, idx) => {
                     return (
-                        <div key={suggestion.id || idx} onMouseDown={(e) => onSuggestionInputChange(e, suggestion)}>
+                        <div key={suggestion.id || idx} onMouseDown={(e) => onSuggestionClick(e, suggestion)}>
                             {
                                 renderSuggestion ? 
                                     renderSuggestion(suggestion)
                                 :
                                 (
                                     <DefaulSuggestionItem 
-                                        displayKey={displayKey}
+                                        suggestionKey={suggestionKey}
                                         suggestion={suggestion}
-                                        onClick={onSuggestionInputChange}
+                           
                                     />
                                 )
                             }       
@@ -56,13 +77,16 @@ const SuggestionInput = ({suggestions, renderSuggestion, displayKey, valueKey, l
 
 SuggestionInput.defaultProps = {
     suggestions: [],
-    renderSuggestion: null
+    renderSuggestion: null,
+    getChangedObject: (value, valueKey) => ({[valueKey]: value, id: null})
 }
 
-const DefaulSuggestionItem = ({suggestion, displayKey}) => (
+const DefaulSuggestionItem = ({suggestion, suggestionKey}) => {
+
+    return(
     <div className="suggestion-input2__default-item" >
-        {typeof suggestion === 'object' ? suggestion[displayKey] : suggestion}
+        {typeof suggestion === 'object' ? suggestion[suggestionKey] : suggestion}
     </div>
-)
+)}
 
 export default SuggestionInput

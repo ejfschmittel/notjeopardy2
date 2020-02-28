@@ -50,13 +50,12 @@ const refreshAuthToken = async () => {
 const authenticatedRequest = async (url, settings={}) => {
     let requestSettings = {...settings}
 
-    console.log("authenticated request")
-    console.log(isUserLoggedIn())
+
     if(isUserLoggedIn()){
         if(shouldRefreshAuthToken()){
             await refreshAuthToken();
         }
-        console.log("authenticated request 2")
+   
         
         requestSettings = mergeRequestSettings({headers: getAuthHeaders()}, requestSettings)
 

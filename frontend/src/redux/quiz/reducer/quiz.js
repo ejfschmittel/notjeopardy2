@@ -7,6 +7,10 @@ import { CategorySuggestionInput } from "../../../components/question-create-for
 
 const quizReducer = (state={}, action) => {
 
+    const idReducer = (state=null, action) => {
+        return state
+    }
+
     const titleReducer = (state="", action) => {
         return state
     }
@@ -24,6 +28,7 @@ const quizReducer = (state={}, action) => {
     }
 
     return combineReducers({
+        id: idReducer,
         title: titleReducer,
         creator: creatorReducer,
         categories: quizCategoriesReducer,

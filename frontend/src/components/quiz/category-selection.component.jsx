@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {CategorySuggestionInput} from "../question-create-form/question-create-form.component"
+import CategorySuggestionInput, {} from "../category-suggestion-input.component"
 
 
 const defaultNames = new Array(6).fill().map((_, idx) => `category_${idx+1}`)

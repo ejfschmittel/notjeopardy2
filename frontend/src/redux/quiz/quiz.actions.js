@@ -15,14 +15,16 @@ const BASE_URL = "http://127.0.0.1:8000/api/"
 
     delete_quiz
 */
-
+// {"title":"test","categories":[{"id":"73f7a75e-2671-4855-894b-1deb0524991d","name":"gaming","official":true,"creator":{"id":1,"username":"ejfschmittel"},"is_favorited":false},{"name":"gamin","id":null},{"name":"test","id":null}]}
 export const createQuiz = (quizData) => async (dispatch) => {
  
     dispatch({type: quizTypes.CREATE_QUIZ_START})
 
     try {
         const url = BASE_URL + "quiz/"
+        console.log(JSON.stringify(quizData))
         const response = await post(url, quizData)
+
         dispatch({
             type: quizTypes.CREATE_QUIZ_SUCCESS,
             response

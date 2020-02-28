@@ -48,7 +48,7 @@ const parseJSON = async (response) => {
     if(!response) response = {};
     const text = await response.text()
     if(!text) return ({})
-    console.log(text)
+    //console.log(text)
     return JSON.parse(text)
     return response.json()
 }
