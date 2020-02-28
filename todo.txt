@@ -4,6 +4,27 @@
 // questions / one answer / multiple answers
 // point tracking system
 
+/quiz/asdfyxcyfasdf/question/asdfyxfdsasa/
+
+questions component = {
+    // solid quiz id
+    // solid categoryid
+
+    <QuizQuestionEditor 
+        id: null,
+        ...data
+        points
+    />
+
+    <QuestionEditor 
+    
+    />
+
+    // question placeholder
+    
+    /
+}
+
 
 - favorite category (categoryid)
 - write tests for categories
@@ -11,6 +32,9 @@
 
 http://whitenoise.evans.io/en/stable/
 https://www.youtube.com/watch?v=TgmeAN32Uvw
+
+https://stackoverflow.com/questions/37240621/django-rest-framework-updating-nested-object
+https://stackoverflow.com/questions/37833307/django-rest-framework-post-update-if-existing-or-create
 
 /users/ejfschmittel/    (profile, information & passwordchange)
 /users/ejfschmittel/questions/ (question overview and add new questions)

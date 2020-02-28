@@ -1,0 +1,7 @@
+const quizQuestionTypes = {
+    SET_QUIZ_QUESTION_START: "SET_QUIZ_QUESTION_START",
+    SET_QUIZ_QUESTION_SUCCESS: "SET_QUIZ_QUESTION_SUCCESS",
+    SET_QUIZ_QUESTION_ERROR: 
+}
+
+export default quizQuestionTypes

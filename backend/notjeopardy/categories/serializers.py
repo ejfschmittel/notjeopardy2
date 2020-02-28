@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Category, UserCategoryFavorites
-
+from accounts.serializers import UserDisplaySerializer
 ## add liked by you field
 
 
@@ -16,18 +16,8 @@ class UserCategoryFavoriteSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-
     is_favorited = serializers.SerializerMethodField()
-
-    creator = serializers.PrimaryKeyRelatedField(
-        read_only=True, 
-        default=serializers.CurrentUserDefault()
-    )
-
-    class Meta:
-        model = UserCategoryFavorites
-        fields = ["category","user"]
-
+    creator = UserDisplaySerializer()
 
     def get_is_favorited(self, obj):
         user = None

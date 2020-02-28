@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from "react-redux"
 import {createQuestion, getQuestions} from "../../redux/question/question.actions"
-import {DebouncedSuggestionInput} from "../suggestion-input/"
+
 import {get} from "../../redux/auth/auth.actions"
 import "./question-create-form.style.scss"
+
 
 
 /*
@@ -32,7 +33,7 @@ const emptyQuestionFormState = {
 
 */
 
-export const CategorySuggestionInput = (props) => {
+/*export const CategorySuggestionInput = (props) => {
     const [categorySuggestions, setCategorySuggestions] = useState([])
 
 
@@ -65,7 +66,7 @@ export const CategorySuggestionInput = (props) => {
             {...props}
         />
     )
-}
+} */
 
 
 

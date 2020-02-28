@@ -3,6 +3,19 @@ import quizTypes from "./quiz.types"
 
 const BASE_URL = "http://127.0.0.1:8000/api/"
 
+/**
+    set_quiz_data: titlte + categories
+    set_quiz_question: // in quiz questions
+
+    quiz_question => foreig key
+    
+
+    qutofill_categories: autofille missing categories / => directly set on server ???
+    autofill_questions: autofills missing questions / categories
+
+    delete_quiz
+*/
+
 export const createQuiz = (quizData) => async (dispatch) => {
  
     dispatch({type: quizTypes.CREATE_QUIZ_START})

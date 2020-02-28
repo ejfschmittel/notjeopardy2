@@ -42,7 +42,7 @@ import {createQuiz} from "../../redux/quiz/quiz.actions"
 
 */
 
-const useOfficialCategories = () => {
+/*const useOfficialCategories = () => {
     const officalCategoriesIdList = useSelector(({quizReducer}) => quizReducer.byList.official.list)
     const allCategoriesById = useSelector(({quizReducer}) => quizReducer.byId)
     const dispatch = useDispatch()
@@ -73,7 +73,12 @@ const useOfficialCategories = () => {
         autoFillCategories,
     }
 
-}
+    {
+        title:
+        categories: [{name: "", id: null}]
+    }
+
+}*/
 
 const QuizCreateFrom = () => {
     const [title, setTitle] = useState("")
@@ -81,7 +86,7 @@ const QuizCreateFrom = () => {
     const dispatch = useDispatch()
     const isLoading = useSelector(({quizReducer}) => quizReducer.create.isPending)
 
-    const officialCategories = useSelector(({quizReducer}) => quizReducer.create.isPending)
+  
 
     const onCreateClick = (e) => {
         e.preventDefault();
@@ -96,9 +101,7 @@ const QuizCreateFrom = () => {
 
     const onTitleChange = (e) => setTitle(e.target.value) 
 
-    const autoFillCategories = () => {
 
-    }
 
     return (
        

@@ -8,6 +8,11 @@ from rest_framework_jwt.serializers import JSONWebTokenSerializer
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
+class UserDisplaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MyUser
+        fields = ('id', 'username')
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
