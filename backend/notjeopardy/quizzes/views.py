@@ -10,7 +10,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from django.http import Http404
 
-from .serializers import QuizSerializer, QuizCategorySerializer, QuizQuestionSerializer
+from .serializers import QuizSerializer, QuizCategorySerializer, QuizQuestionSerializer, QuizListSerializer
 from .models import Quiz, QuizCategory, QuizQuestion
 
 
@@ -24,6 +24,8 @@ class QuizViewset(viewsets.ModelViewSet):
         category = serializer.save(creator=self.request.user)
 
     def get_serializer_class(self):
+        if self.action == 'list':
+            return QuizListSerializer
         return QuizSerializer
 
     def get_serializer_context(self):

@@ -29,18 +29,30 @@ const error = (state = null, action) => {
     }
 }
 
-const currentQuizReducer = (state = null, action) => {
+const createCurrentQuizReducer = () => {
 
         const idReducer = (state=null, action) => {
-            return state
+            switch(action.type){
+                case quizTypes.CREATE_QUIZ_SUCCESS:
+                    return action.response.id
+                default: return state
+            }
         }
     
         const titleReducer = (state="", action) => {
-            return state
+            switch(action.type){
+                case quizTypes.CREATE_QUIZ_SUCCESS:
+                    return action.response.title
+                default: return state
+            }
         }
     
         const quizCategoriesReducer = (state=[], action) => {
-            return state
+            switch(action.type){
+                case quizTypes.CREATE_QUIZ_SUCCESS:
+                    return action.response.categories.map(quizCategory => quizCategory.id)
+                default: return state
+            }
         }
     
         const creatorReducer = (state={}, action) => {
@@ -63,5 +75,5 @@ const currentQuizReducer = (state = null, action) => {
 export default combineReducers({
     isPending,
     error,
-    current: currentQuizReducer
+    current: createCurrentQuizReducer()
 })

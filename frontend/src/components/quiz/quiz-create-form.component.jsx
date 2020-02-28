@@ -13,6 +13,10 @@ const QuizCreateFrom = () => {
     const isLoading = useSelector(({quizReducer}) => quizReducer.edit.isPending)
     const [categories, setCategories, categoryListProps] = useCategorySuggestionInputList(6)
   
+    const editState = useSelector(({quizReducer}) => quizReducer.edit.current)
+    const byId = useSelector(({categoryReducer}) => categoryReducer.byId)
+    console.log(editState)
+    console.log(byId)
 
     const onCreateClick = (e) => {
         e.preventDefault();

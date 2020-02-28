@@ -36,27 +36,18 @@ class QuizQuestionSerializer(serializers.ModelSerializer):
 
 import json
 
-class QuizDetailWriteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Quiz
-        fields = ("id", "title", "creator", "categories", "questions")
 
-
-class QuizDetailReadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Quiz
-        fields = ("id", "title", "creator", "categories", "questions")
 
 class QuizListSerializer(serializers.ModelSerializer):
 
-
+    categories = QuizCategorySerializer(source="quiz_catgories", many=True, read_only=True)
 
     creator = UserDisplaySerializer()
 
     class Meta:
         model = Quiz
-        fields = ("id", "title", "creator", "categories", "questions")
-        read_only_fields = ("id", "title", "creator", "categories", "questions")
+        fields = ("id", "title", "creator", "categories", )
+        read_only_fields = ("id", "title", "creator", "categories",)
 
 
 
@@ -79,13 +70,16 @@ class QuizSerializer(serializers.ModelSerializer):
         print(data)
         return data
 
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
+
     def create(self, validated_data):
         categories = validated_data.pop("quiz_categories")
         # questions = validated_data.pop("quiz_questions")
 
         quiz = Quiz.objects.create(**validated_data)
 
-        quiz = Quiz.objects.all().first()
+      
 
         # add limit to categries => later
         # create quizCategory => override create

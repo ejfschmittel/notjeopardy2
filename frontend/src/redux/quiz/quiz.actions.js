@@ -30,6 +30,7 @@ export const createQuiz = (quizData) => async (dispatch) => {
             response
         })
     }catch(error){
+        console.log(error)
         dispatch({
             type: quizTypes.CREATE_QUIZ_ERROR,
             error: error.response

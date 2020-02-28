@@ -1,6 +1,6 @@
 import { combineReducers } from "redux"
 import categoryTypes from "../category.types"
-
+import quizTypes from "../../quiz/quiz.types"
 
 const catObj = (state = {}, action) => {
     switch(action.type){
@@ -18,12 +18,20 @@ const catObj = (state = {}, action) => {
 }
 
 const byId = (state = {}, action) => {
+    let newState = null
     switch(action.type){
         case categoryTypes.FETCH_CATEGORIES_SUCCESS:
         case categoryTypes.FETCH_USER_CATEGORIES_SUCCESS:
         case categoryTypes.FETCH_OFFICIAL_CATEGORIES_SUCCESS:
-            const newState = {...state}
+            newState = {...state}
             action.response.forEach(category => {
+                newState[category.id] = category
+            })
+            return newState
+
+        case quizTypes.CREATE_QUIZ_SUCCESS:
+            newState = {...state}
+            action.response.categories.forEach(({category}) => {
                 newState[category.id] = category
             })
             return newState

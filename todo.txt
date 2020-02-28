@@ -1,5 +1,14 @@
 
 
+- write list serializer for quizzes (no questions, only category name, official, id)
+- write update for quiz (categories & questions)
+- write create data to reducer => change view after create / edit
+- write EditQuizQuestionView Frontend
+
+
+- /category/id/ => show category info, show all questions related to category
+
+
 
 // questions / one answer / multiple answers
 // point tracking system
