@@ -1,9 +1,19 @@
 
 
-- write list serializer for quizzes (no questions, only category name, official, id)
-- write update for quiz (categories & questions)
-- write create data to reducer => change view after create / edit
+- write list serializer for quizzes (no questions, only category name, official, id)    x
+- write create data to reducer => change view after create / edit   o
+
 - write EditQuizQuestionView Frontend
+- write question edit frontend
+- write QuizQuestion creawte backend
+
+- write update for quiz (categories & questions)
+- write autofill categories
+- write autofill questions
+
+- add isPlayable to quiz => count quizQuestions
+
+
 
 
 - /category/id/ => show category info, show all questions related to category

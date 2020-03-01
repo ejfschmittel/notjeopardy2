@@ -1,7 +1,7 @@
 
 
 import { combineReducers } from "redux"
-import quizTypes from "../quiz.types"
+import quizTypes, {quizStatus} from "../quiz.types"
 
 const isPending = (state = false, action) => {
     console.log(action)
@@ -24,6 +24,19 @@ const error = (state = null, action) => {
             return null;
         case quizTypes.CREATE_QUIZ_ERROR:
             return action.error
+        default:
+            return state
+    }
+}
+
+const status = (state = quizStatus.EDIT_BASE_INFO, action) => {
+    console.log(action)
+    switch(action.type){
+        case quizTypes.CREATE_QUIZ_SUCCESS:
+        case quizTypes.SET_QUIZ_STATUS_EDIT_QUESTIONS:
+            return quizStatus.EDIT_QUESTIONS;
+        case quizTypes.SET_QUIZ_STATUS_EDIT_BASE_INFO:
+            return quizStatus.EDIT_BASE_INFO;
         default:
             return state
     }
@@ -75,5 +88,6 @@ const createCurrentQuizReducer = () => {
 export default combineReducers({
     isPending,
     error,
-    current: createCurrentQuizReducer()
+    current: createCurrentQuizReducer(),
+    status
 })

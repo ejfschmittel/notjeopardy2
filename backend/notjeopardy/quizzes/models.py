@@ -13,7 +13,7 @@ class QuizTag(models.Model):
 
 class Quiz(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=128, null=False, blank=False)
+    title = models.CharField(max_length=128)
 
     tags = models.ManyToManyField(to=QuizTag, blank=True)
 
@@ -34,7 +34,7 @@ class Quiz(models.Model):
 class QuizCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.ForeignKey(to=Category, on_delete=models.PROTECT)
-    quiz = models.ForeignKey(to=Quiz, on_delete=models.CASCADE, related_name="quiz_catgories")   
+    quiz = models.ForeignKey(to=Quiz, on_delete=models.CASCADE, related_name="quiz_categories")   
 
     class Meta:
         verbose_name_plural = "Quiz categories"

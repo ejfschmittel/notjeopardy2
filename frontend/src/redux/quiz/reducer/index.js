@@ -1,13 +1,12 @@
 import {combineReducers} from "redux"
 
 import edit from "./edit"
+import create from "./edit"
+import byId from "./byId"
 
-const isPending = (state = false, action) => {
-    console.log(action)
-    return state
-}
 
 export default combineReducers({
+    create,
     edit,
-    isPending
+    byId,
 })

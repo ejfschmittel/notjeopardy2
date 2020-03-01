@@ -29,7 +29,7 @@ const CategorySuggestionInput = (props) => {
 
     return (
         <DebouncedSuggestionInput 
-            placeholder="categories..."
+            placeholder="category..."
             autoComplete="off"
             suggestions={categorySuggestions}
             suggestionKey="name"

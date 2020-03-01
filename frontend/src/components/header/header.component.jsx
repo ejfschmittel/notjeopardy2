@@ -16,24 +16,24 @@ const Header = () => {
     }
 
     return (
-        <header className="header">
-            <Link to="/" className="header__title">Not Jeopardy</Link>
-            <nav className="header__nav">
+        <header className="main-header">
+            <Link to="/" className="main-header__title">Not Jeopardy</Link>
+            <nav className="main-header__nav">
                 <ul>
-                    <li className="header__nav-item"><Link to="/">Explore</Link></li>
+                    <li className="main-header__nav-item"><Link to="/">Explore</Link></li>
                     {isAuthenticated ? 
                         <React.Fragment>
                             
-                            <li className="header__nav-item"><Link to="/quiz/create">Create Quiz</Link></li>
-                            <li className="header__nav-item"><Link to={`/users/${currentUser.username}/`}>{currentUser.username}</Link></li>
-                            <li className="header__nav-item"><Link to={`/users/${currentUser.username}/questions/`}>My Questions</Link></li>
-                            <li className="header__nav-item"><Link to={`/users/${currentUser.username}/categories/`}>My Categories</Link></li>
-                            <li className="header__nav-item"><button onClick={onLogout}>Logout</button></li>
+                            <li className="main-header__nav-item"><Link to="/quiz/edit/c649072e-5962-4b06-b862-83b918b3c860/">Create Quiz</Link></li>
+                            <li className="main-header__nav-item"><Link to={`/users/${currentUser.username}/`}>{currentUser.username}</Link></li>
+                            <li className="main-header__nav-item"><Link to={`/users/${currentUser.username}/questions/`}>My Questions</Link></li>
+                            <li className="main-header__nav-item"><Link to={`/users/${currentUser.username}/categories/`}>My Categories</Link></li>
+                            <li className="main-header__nav-item"><button onClick={onLogout}>Logout</button></li>
                         </React.Fragment>
                     :
                         <React.Fragment>
-                            <li className="header__nav-item"><Link to="/login">Login</Link></li>
-                            <li className="header__nav-item"><Link to="/signup">Signup</Link></li>
+                            <li className="main-header__nav-item"><Link to="/login">Login</Link></li>
+                            <li className="main-header__nav-item"><Link to="/signup">Signup</Link></li>
                         </React.Fragment>
                     }
                 </ul>

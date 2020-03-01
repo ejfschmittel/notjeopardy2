@@ -1,0 +1,29 @@
+.quiz-editor-header{
+    background: #fff;
+    border-radius: .5rem;
+    margin: -5px;
+    padding: .8rem;
+    color: #333;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+
+
+    &__title{
+        flex: 1;
+    }
+
+    &__switch-btn{
+        margin-left: 1rem;
+    }
+
+    &__options-wrapper{
+        height: 30px;
+        width: 30px;
+        background: #000;
+        margin-left: 1rem;
+    }
+    
+}

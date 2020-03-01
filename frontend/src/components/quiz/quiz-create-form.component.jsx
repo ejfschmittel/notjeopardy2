@@ -1,7 +1,6 @@
 
 import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux"
-import CategorySelection, {useCategoriesSelectionComponent} from "../quiz/category-selection.component"
 import CategorySuggestionListInput, {useCategorySuggestionInputList} from "../category-suggestion-input-list.component"
 import {createQuiz} from "../../redux/quiz/quiz.actions"
 
@@ -28,12 +27,6 @@ const QuizCreateFrom = () => {
             categories: categories.reduce((res, category) => category.name ? [...res, category] : res, [])
         }
 
-
-
-        /*
-            edit quiz
-        */
-       
         dispatch(createQuiz(sendData))    
     }
 

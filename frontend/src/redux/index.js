@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-
+import logger from 'redux-logger';
 import reducers from './root-reducer'
 
 
-const logger = (store) => (next) => {
+/*const logger = (store) => (next) => {
   if(!console.group){
     return next
   }
@@ -18,7 +18,7 @@ const logger = (store) => (next) => {
     console.groupEnd(action.type);
     return returnValue
   }
-}
+} */
 
     
 
@@ -31,6 +31,7 @@ const middleware = [
 ]
 if(process.env.NODE_ENV !== 'production'){
   //middleware.push(logger)
+  middleware.push(logger);
 }
 
 const composedEnhancers = compose(
