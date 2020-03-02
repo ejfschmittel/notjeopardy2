@@ -15,36 +15,38 @@ import "../styles/components/quiz-editor-header.styles.scss"
 // handle loading when edit => check for url parameter
 
 
+/*
+    if not quizData && pending => show loading
+    if not quizData (in Byid) => show nothing found
+    if quizdata show form filled
+
+
+*/
+
 
 const QuizEditor = ({match}) => {
     const dispatch = useDispatch()
-    const [currentQuiz, setCurrentQuiz] = useState({})
+   
     const currentQuizStatus = useSelector(({quizReducer}) => quizReducer.edit.status)
-    const currentQuizId = useSelector(({quizReducer}) => quizReducer.edit.current.id)
-    const currentQuizTitle = useSelector(({quizReducer}) => quizReducer.edit.current.title)
 
-    const quizzesById = useSelector(({quizReducer}) => quizReducer.byId)
+    const currentQuizId = match.params.quizid // move to redux ?
+    const currentQuiz = useSelector(({quizReducer}) => quizReducer.byId[currentQuizId])
+
+
+    
+
+    console.log("CURRENT QUIZ")
+    console.log(currentQuizId)
+
+    console.log(currentQuiz)
+
 
     /*
         id & status
     */
 
-    
-
-   
-   
-
-    useEffect(() => {
-        const cQuiz = quizzesById[match.params.quizid] ? quizzesById[match.params.quizid] : {};
-        console.log(cQuiz)
-        console.log("here")
-        setCurrentQuiz(cQuiz)
-
-    }, [[match.params.quizId], quizzesById])
-
     useEffect(() => {
        const urlQuizId = match.params.quizid;
-       setCurrentQuiz()
 
        if(urlQuizId){
         dispatch(fetchQuizDetail(urlQuizId))
@@ -58,12 +60,23 @@ const QuizEditor = ({match}) => {
 
     return (
         <div className="quiz-editor">
-            <QuizEditorHeader status={currentQuizStatus} />
-            {currentQuizStatus !== quizStatus.EDIT_QUESTIONS ?
-                <QuizEditBaseInfo currentQuiz={currentQuiz} />
+
+            {!currentQuiz ? 
+                <div>Quiz Not found</div>
                 :
-                <QuizEditQuestions currentQuiz={currentQuiz}/>
+
+                (
+                    <React.Fragment>
+                        <QuizEditorHeader status={currentQuizStatus} />
+                        {currentQuizStatus !== quizStatus.EDIT_QUESTIONS ?
+                            <QuizEditBaseInfo currentQuiz={currentQuiz}quizId={currentQuizId}/>
+                            :
+                            <QuizEditQuestions currentQuiz={currentQuiz}/>
+                        }
+                    </React.Fragment>
+                )
             }
+            
         </div>
     )
 }

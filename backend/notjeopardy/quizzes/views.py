@@ -34,7 +34,7 @@ class QuizViewset(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return QuizListSerializer
-        if self.action == 'detail':
+        if self.action == 'retrieve':
             return QuizReadSerializer
         return QuizWriteSerializer
 
@@ -46,6 +46,21 @@ class QuizCategoryViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     def get_serializer_class(self):
         return QuizCategorySerializer
+
+
+    @action(detail=False, methods=['post'], url_path="autofill_quiz_categories", url_name="autofill_quiz_categories")
+    def autofill_quiz_categories(self,request, *args, **kwargs):
+        # category array / existing / new
+        # get categories from request
+        # count categories
+        # get existing / create new QuizCateogries
+        # get quiz category set
+        
+        # fill 6 - count question set >  categries != category set
+      
+        # get categories from request
+       # 
+       return Response(status=status.HTTP_200_OK)
 
     # todo: override serializer create to 
 

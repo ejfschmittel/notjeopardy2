@@ -32,3 +32,19 @@ export default combineReducers({
 
 /** SELECTORS */
 
+export const getCategoryById = (state, categoryId) => {
+    return state.byId[categoryId]
+}
+
+export const getCategories = (state, categories=[]) => {
+    const foundCategories = []
+    categories.forEach(categoryId => {
+        const category = getCategoryById(state, categoryId)
+        if(category){
+            foundCategories.push(category)
+        }
+    })
+
+    return foundCategories
+}
+

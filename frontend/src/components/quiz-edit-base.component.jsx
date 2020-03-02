@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useMemo, useCallback} from 'react'
 
 import {useDispatch, useSelector} from "react-redux"
 import CategorySuggestionListInput, {useCategorySuggestionInputList} from "./category-suggestion-input-list.component"
 import {createQuiz} from "../redux/quiz/quiz.actions"
 
-
+import {getQuizById} from "../redux"
 
 
 /*
@@ -17,16 +17,32 @@ import {createQuiz} from "../redux/quiz/quiz.actions"
 */
 
 
-const QuizEditBaseInfo = () => {
-   
+const QuizEditBaseInfo = ({quizId}) => {
+    console.log("quiz edit base")
+
+    const selecor = useCallback((state) => getQuizById(state, quizId), [])
+
+    const currentQuiz = useSelector(selecor)
     const [title, setTitle] = useState("")
     
     const dispatch = useDispatch()
     const isLoading = useSelector(({quizReducer}) => quizReducer.edit.isPending)
     const [categories, setCategories, categoryListProps] = useCategorySuggestionInputList(6)
+
+    
+
+    useEffect(() => {
+        setTitle(currentQuiz.title)
+
+        const cats =  new Array(6).fill().map((_, index) => 
+            currentQuiz.categories[index] ? currentQuiz.categories[index] : {id: null, name: ""}
+        )
+        
+       // console.log(cats)
+        setCategories(cats)
+    }, [currentQuiz])
   
-    const editState = useSelector(({quizReducer}) => quizReducer.edit.current)
-    const byId = useSelector(({categoryReducer}) => categoryReducer.byId)
+
 
     const onCreateClick = (e) => {
         e.preventDefault();

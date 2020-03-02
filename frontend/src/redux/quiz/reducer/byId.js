@@ -33,7 +33,7 @@ const createQuizReducer = () => {
         switch(action.type){
             case quizTypes.CREATE_QUIZ_SUCCESS:
             case quizTypes.FETCH_QUIZ_SUCCESS:
-                return action.response.categories.map(quizCategory => quizCategory.id)
+                return action.response.categories.map(quizCategory => quizCategory.category.id)
             default: return state
         }
     }

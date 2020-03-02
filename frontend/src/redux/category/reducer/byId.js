@@ -20,6 +20,13 @@ const catObj = (state = {}, action) => {
 const byId = (state = {}, action) => {
     let newState = null
     switch(action.type){
+        case quizTypes.FETCH_QUIZ_SUCCESS:
+            newState = {...state}
+            action.response.categories.forEach((category) => {
+                newState[category.category.id] = category.category
+            })
+            return newState
+
         case categoryTypes.FETCH_CATEGORIES_SUCCESS:
         case categoryTypes.FETCH_USER_CATEGORIES_SUCCESS:
         case categoryTypes.FETCH_OFFICIAL_CATEGORIES_SUCCESS:

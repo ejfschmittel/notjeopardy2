@@ -1,5 +1,9 @@
 
 
+- write autofill hook => funciton ??? 
+
+
+
 - write list serializer for quizzes (no questions, only category name, official, id)    x
 - write create data to reducer => change view after create / edit   o
 
@@ -13,6 +17,27 @@
 
 - add isPlayable to quiz => count quizQuestions
 
+// create => click
+    // post to create quiz (title)
+    // x posts to get / create quiz categories
+        // => errors => ??? 
+        
+    // => dispatch(quiz_success)
+    // handle create quiz errors
+
+
+drf / djanog tutorials
+https://medium.com/@ozguryarikkas/a-guide-to-creating-an-api-endpoint-with-django-rest-framework-and-django-filters-with-postgresql-563a12b3accb
+
+
+
+https://stackoverflow.com/questions/14666199/how-do-i-create-multiple-model-instances-with-django-rest-framework
+https://stackoverflow.com/questions/20951419/what-are-best-practices-for-rest-nested-resources
+
+/quiz/:quizid/quiz_questions/ list => create
+/quiz/:quizid/quiz_categories/ list => create
+
+/quiz_categories/:id/
 
 
 

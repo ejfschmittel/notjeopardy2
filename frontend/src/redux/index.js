@@ -3,7 +3,8 @@ import thunk from 'redux-thunk'
 import logger from 'redux-logger';
 import reducers from './root-reducer'
 
-
+import {getQuizFrameById} from "./quiz/reducer/"
+import {getCategories} from "./category/reducer/"
 /*const logger = (store) => (next) => {
   if(!console.group){
     return next
@@ -46,5 +47,19 @@ const store = createStore(
 )
 
 //process.env.NODE_ENV !== 'production'){
+
+export const getQuizById = (state, id) => {
+  const quizFrame = getQuizFrameById(state.quizReducer, id)
+  const quizCategories = getCategories(state.categoryReducer, quizFrame.categories)
+
+  // reducer categories
+
+  const quizObj = {
+    ...quizFrame,
+    categories: quizCategories
+  }
+
+  return quizObj
+}
 
 export default store

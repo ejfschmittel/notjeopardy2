@@ -24,7 +24,7 @@ const Header = () => {
                     {isAuthenticated ? 
                         <React.Fragment>
                             
-                            <li className="main-header__nav-item"><Link to="/quiz/edit/c649072e-5962-4b06-b862-83b918b3c860/">Create Quiz</Link></li>
+                            <li className="main-header__nav-item"><Link to="/quiz/edit/b3c6f0d6-9273-423e-b572-df58d9035570/">Create Quiz</Link></li>
                             <li className="main-header__nav-item"><Link to={`/users/${currentUser.username}/`}>{currentUser.username}</Link></li>
                             <li className="main-header__nav-item"><Link to={`/users/${currentUser.username}/questions/`}>My Questions</Link></li>
                             <li className="main-header__nav-item"><Link to={`/users/${currentUser.username}/categories/`}>My Categories</Link></li>

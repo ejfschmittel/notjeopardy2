@@ -17,6 +17,12 @@ const generateDuplicateList = (count, value) => {
     return new Array(count).fill().map((_, index) => value)
 }
 
+
+export const autofillCategories = async (categories=[]) => {
+   // make post request to autofill 
+   // wait for request to finish => 
+}
+
 export const useCategorySuggestionInputList = (count=0, initialState=[], emptyCategory=emptyCategoryDefault) => {
     
     const [categories, setCategories] = useState(initialState && initialState.length != 0 ? initialState : generateDuplicateList(count, emptyCategory))
@@ -26,6 +32,10 @@ export const useCategorySuggestionInputList = (count=0, initialState=[], emptyCa
         const newCategories = [...categories]
         newCategories[index] = category
         setCategories(newCategories)
+    }
+
+    const autoFillCategories = async () => {
+        
     }
 
     return [

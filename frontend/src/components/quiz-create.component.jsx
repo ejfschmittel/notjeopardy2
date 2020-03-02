@@ -3,25 +3,9 @@ import {useDispatch, useSelector} from "react-redux"
 import CategorySuggestionInputList, {useCategorySuggestionInputList} from "./category-suggestion-input-list.component"
 import {createQuiz} from "../redux/quiz/quiz.actions"
 import quizTypes from "../redux/quiz/quiz.types"
+import FormError from "./form-error.component"
 
 
-const FormError = ({errors, displayKey}) => {
-    if(!errors) return null;
-
-    const createErrorMessage = (errorKey, errors) => {
-        const message = errors[errorKey]
-        return `${errorKey}: ${message}`
-    }
-
-    const errorKey = displayKey ? displayKey : Object.keys(errors)[0]
-    const displayError = createErrorMessage(errorKey, errors)
-
-    return (
-    <div className="form__error">
-        {displayError}
-    </div>
-    )
-}
 
 const QuizCreator = ({history}) => {
     const dispatch = useDispatch()
@@ -48,7 +32,7 @@ const QuizCreator = ({history}) => {
          
             if(action && action.type === quizTypes.CREATE_QUIZ_SUCCESS){
                 // redirect to edit
-                //history.push(`/quiz/${action.response.id}/edit/`)
+                history.push(`/quiz/${action.response.id}/edit/`)
             }
         })
     }
