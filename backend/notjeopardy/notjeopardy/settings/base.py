@@ -42,12 +42,18 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
 
+    'graphene_django',
+
     # my apps
     'accounts',
     'categories',
     'questions',
     'quizzes'
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'app.schema.schema' # Where your Graphene schema lives
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

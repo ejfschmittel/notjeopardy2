@@ -11,7 +11,28 @@ import ManageQuestionPage from "./components/questions-manage-page/questions-man
 import QuizEditor from "./components/quiz-editor.component"
 import QuizCreate from "./components/quiz-create.component"
 
+import ApolloClient, {gql} from "apollo-boost"
+
 import "./styles/main.scss";
+
+const client = new ApolloClient({
+  uri: "http://127.0.0.1:8000/graphql/"
+})
+
+client
+  .query({
+    query: gql`
+      {
+        allCategories{
+          id,
+          name
+        }
+      }
+    `
+  })
+  .then(result => console.log(result));
+
+
 
 
 function App() {

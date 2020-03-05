@@ -16,7 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
+from .schema import schema
+
+# add crsf https://docs.graphene-python.org/projects/django/en/latest/installation/
+
 urlpatterns = [
+    path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
     path('api/users/', include(('accounts.urls', 'users'))),
     path('api/categories/', include(('categories.urls', 'categories'))),
     path('api/questions/', include(('questions.urls', 'questions'))),
